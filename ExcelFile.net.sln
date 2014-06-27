@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelFile.net.net40", "ExcelFile.net.net40\ExcelFile.net.net40.csproj", "{2F6C45F3-B267-4FDD-8289-8994C635B9B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelFile.net.net45", "ExcelFile.net.net45\ExcelFile.net.net45.csproj", "{ABEB11E4-7AE6-46C0-9BA7-B52061F67A87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{2F6C45F3-B267-4FDD-8289-8994C635B9B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F6C45F3-B267-4FDD-8289-8994C635B9B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F6C45F3-B267-4FDD-8289-8994C635B9B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABEB11E4-7AE6-46C0-9BA7-B52061F67A87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABEB11E4-7AE6-46C0-9BA7-B52061F67A87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABEB11E4-7AE6-46C0-9BA7-B52061F67A87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABEB11E4-7AE6-46C0-9BA7-B52061F67A87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

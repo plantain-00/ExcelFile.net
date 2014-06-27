@@ -4,32 +4,32 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2F6C45F3-B267-4FDD-8289-8994C635B9B4}</ProjectGuid>
+    <ProjectGuid>{ABEB11E4-7AE6-46C0-9BA7-B52061F67A87}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ExcelFile.net</RootNamespace>
     <AssemblyName>ExcelFile.net</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\net40\</OutputPath>
+    <OutputPath>..\bin\net45\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-	<DocumentationFile>..\bin\net40\ExcelFile.net.XML</DocumentationFile>
+	<DocumentationFile>..\bin\net45\ExcelFile.net.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\net40\</OutputPath>
+    <OutputPath>..\bin\net45\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-	<DocumentationFile>..\bin\net40\ExcelFile.net.XML</DocumentationFile>
+	<DocumentationFile>..\bin\net45\ExcelFile.net.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
@@ -52,9 +52,9 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExcelStyle.cs" />
-    <Compile Include="ExcelFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+	<Compile Include="..\ExcelFile.net.net40\ExcelStyle.cs" />
+	<Compile Include="..\ExcelFile.net.net40\ExcelFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
