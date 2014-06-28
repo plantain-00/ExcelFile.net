@@ -4,32 +4,32 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ABEB11E4-7AE6-46C0-9BA7-B52061F67A87}</ProjectGuid>
+    <ProjectGuid>{1AF53CE0-7B6E-44EA-A600-4B9DDBAE3C24}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ExcelFile.net</RootNamespace>
     <AssemblyName>ExcelFile.net</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\net45\</OutputPath>
+    <OutputPath>..\bin\net451\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\bin\net45\ExcelFile.net.XML</DocumentationFile>
+    <DocumentationFile>..\bin\net451\ExcelFile.net.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\net45\</OutputPath>
+    <OutputPath>..\bin\net451\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\bin\net45\ExcelFile.net.XML</DocumentationFile>
+    <DocumentationFile>..\bin\net451\ExcelFile.net.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NPOI">
