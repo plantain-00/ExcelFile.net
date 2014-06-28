@@ -21,17 +21,17 @@ A Excel File Writer based on NPOI.
 
 ## reference
 ### ExcelFile
-内容：工作表Sheet()、行Row()、单元格Cell()、空的单元格Empty()、合并单元格Cell()
-单元格样式：默认样式Style、新样式NewStyle()、内联样式Cell()、行样式Row()
-列样式：列宽Sheet()
-行样式：默认行高DefaultRowHeight()、内联行高Row()
-输出：本地文件Save()、远程下载Save()
++鍐呭锛氬伐浣滆〃Sheet()銆佽Row()銆佸崟鍏冩牸Cell()銆佺┖鐨勫崟鍏冩牸Empty()銆佸悎骞跺崟鍏冩牸Cell()
++鍗曞厓鏍兼牱寮忥細榛樿鏍峰紡Style銆佹柊鏍峰紡NewStyle()銆佸唴鑱旀牱寮廋ell()銆佽鏍峰紡Row()
++鍒楁牱寮忥細鍒楀Sheet()
++琛屾牱寮忥細榛樿琛岄珮DefaultRowHeight()銆佸唴鑱旇楂楻ow()
++杈撳嚭锛氭湰鍦版枃浠禨ave()銆佽繙绋嬩笅杞絊ave()
 
 ### ExcelStyle
-背景色：Background
-边框及边框颜色：Border、BorderTop、BorderBottom、BorderLeft、BorderRight
-对齐：Align、VerticalAlign
-文字：WrapText、Italic、Underline、FontSize、Font、Color、Bold
++鑳屾櫙鑹诧細Background
++杈规鍙婅竟妗嗛鑹诧細Border銆丅orderTop銆丅orderBottom銆丅orderLeft銆丅orderRight
++瀵归綈锛欰lign銆乂erticalAlign
++鏂囧瓧锛歐rapText銆両talic銆乁nderline銆丗ontSize銆丗ont銆丆olor銆丅old
 
 ## nuget
 You can get [it](https://www.nuget.org/packages/ExcelFile.net) from Nuget.
