@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ExcelFile.net.Example.net40
 {
@@ -36,7 +37,15 @@ namespace ExcelFile.net.Example.net40
                            };
             excel.Set("测试5", testData);
             excel.Set("测试6", testData, false);
+            excel.Set("测试7", new List<ClassA>());
+            excel.Set("测试8", new List<ClassA>(), false);
             excel.Save("d.xls");
         }
+    }
+
+    public class ClassA
+    {
+        public string F1 { get; set; }
+        public int F2 { get; set; }
     }
 }

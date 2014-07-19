@@ -109,14 +109,13 @@ namespace ExcelFile.net
         /// <param name="type"></param>
         public void Set<T>(string name, IList<T> values, bool willCopyRow = true, Type type = null)
         {
-            if (values == null
-                || values.Count == 0)
+            if (values == null)
             {
-                throw new ArgumentException("no value");
+                throw new ArgumentNullException("values");
             }
             if (type == null)
             {
-                type = values[0].GetType();
+                type = typeof (T);
             }
             var properties = type.GetProperties();
             var fields = type.GetFields();
@@ -125,6 +124,18 @@ namespace ExcelFile.net
                 throw new Exception("no member");
             }
             var row = FindRow(name);
+            if (values.Count == 0)
+            {
+                if (willCopyRow)
+                {
+                    row.Sheet.RemoveRow(row);
+                }
+                else
+                {
+                    RemovePlaceHolder(name);
+                }
+                return;
+            }
             if (willCopyRow)
             {
                 for (var i = 0; i < values.Count - 1; i++)
@@ -139,7 +150,7 @@ namespace ExcelFile.net
                 foreach (var propertyInfo in properties)
                 {
                     var result = type.InvokeMember(propertyInfo.Name, BindingFlags.GetProperty, null, value, null);
-                    var cell = Find(row, name + "-" + propertyInfo.Name);
+                    var cell = Find(row, Combine(name, propertyInfo.Name));
                     if (!willCopyRow
                         && i != values.Count - 1)
                     {
@@ -155,7 +166,7 @@ namespace ExcelFile.net
                 foreach (var fieldInfo in fields)
                 {
                     var result = type.InvokeMember(fieldInfo.Name, BindingFlags.GetField, null, value, null);
-                    var cell = Find(row, name + "-" + fieldInfo.Name);
+                    var cell = Find(row, Combine(name, fieldInfo.Name));
                     if (!willCopyRow
                         && i != values.Count - 1)
                     {
@@ -173,7 +184,7 @@ namespace ExcelFile.net
         }
         private ICell Find(string name)
         {
-            name = string.Format("{{{0}}}", name);
+            name = GetPlaceHolderName(name);
             for (var i = 0; i < _workbook.NumberOfSheets; i++)
             {
                 var sheet = _workbook[i];
@@ -203,16 +214,24 @@ namespace ExcelFile.net
         }
         private IRow FindRow(string name)
         {
-            name = string.Format("{{{0}-", name);
+            name = GetStartOfPlaceHolderName(name);
             for (var i = 0; i < _workbook.NumberOfSheets; i++)
             {
                 var sheet = _workbook[i];
-                for (var j = 0; j < sheet.PhysicalNumberOfRows; j++)
+                for (var j = 0; j <= sheet.LastRowNum; j++)
                 {
                     var row = sheet.GetRow(j);
-                    for (var k = 0; k < row.PhysicalNumberOfCells; k++)
+                    if (row == null)
                     {
-                        var cell = row.Cells[k];
+                        row = sheet.CreateRow(j);
+                    }
+                    for (var k = 0; k < row.LastCellNum; k++)
+                    {
+                        var cell = row.GetCell(k);
+                        if (cell == null)
+                        {
+                            cell = row.CreateCell(k);
+                        }
                         if (cell.CellType == CellType.String
                             && cell.StringCellValue.Trim().StartsWith(name))
                         {
@@ -223,9 +242,26 @@ namespace ExcelFile.net
             }
             throw new Exception(name + " not found in excel");
         }
+        private void RemovePlaceHolder(string name)
+        {
+            var row = FindRow(name);
+            for (var k = 0; k < row.LastCellNum; k++)
+            {
+                var cell = row.GetCell(k);
+                if (cell == null)
+                {
+                    cell = row.CreateCell(k);
+                }
+                if (cell.CellType == CellType.String
+                    && cell.StringCellValue.Trim().StartsWith(GetStartOfPlaceHolderName(name)))
+                {
+                    row.RemoveCell(cell);
+                }
+            }
+        }
         private static ICell Find(IRow row, string name)
         {
-            name = string.Format("{{{0}}}", name);
+            name = GetPlaceHolderName(name);
             for (var k = 0; k < row.PhysicalNumberOfCells; k++)
             {
                 var cell = row.Cells[k];
@@ -236,6 +272,18 @@ namespace ExcelFile.net
                 }
             }
             throw new Exception(name + " not found in row:" + row.RowNum);
+        }
+        private static string GetPlaceHolderName(string name)
+        {
+            return string.Format("{{{0}}}", name);
+        }
+        private static string Combine(string name, string memberName)
+        {
+            return name + "-" + memberName;
+        }
+        private static string GetStartOfPlaceHolderName(string name)
+        {
+            return string.Format("{{{0}-", name);
         }
         /// <summary>
         ///     远程下载Excel文件
