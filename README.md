@@ -19,6 +19,31 @@ A Excel File Writer based on NPOI.
 
 ![](/images/b.JPG)
 
+	var excel = new ExcelEditor("c.xls");
+	excel.Set("测试", "sss");
+	excel.Set("测试2", 123.456);
+	excel.Set("测试3", false);
+	excel.Set("测试4", DateTime.Now);
+	var testData = new[]
+				   {
+					   new
+					   {
+						   F1 = "aa",
+						   F2 = 12
+					   },
+					   new
+					   {
+						   F1 = "bb",
+						   F2 = 121
+					   }
+				   };
+	excel.Set("测试5", testData);
+	excel.Set("测试6", testData, false);
+	excel.Save("d.xls");
+
+![](/images/c.JPG)
+![](/images/d.JPG)
+
 ## reference
 ### ExcelFile
 

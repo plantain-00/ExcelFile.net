@@ -16,7 +16,7 @@ namespace ExcelFile.net.Example.net40
             //excel2.Row(25, excel2.NewStyle().Background(HSSFColor.Yellow.Index)).Empty(2).Cell("test1");
             //excel2.Row(15).Empty().Cell(1).Cell(2, excel2.NewStyle().Color(HSSFColor.Red.Index));
             //excel2.Save("b.xls");
-            var excel = new ExcelEditor("a.xls");
+            var excel = new ExcelEditor("c.xls");
             excel.Set("测试", "sss");
             excel.Set("测试2", 123.456);
             excel.Set("测试3", false);
@@ -36,7 +36,7 @@ namespace ExcelFile.net.Example.net40
                            };
             excel.Set("测试5", testData);
             excel.Set("测试6", testData, false);
-            excel.Save("b.xls");
+            excel.Save("d.xls");
         }
     }
 }
