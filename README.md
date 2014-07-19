@@ -41,8 +41,8 @@ A Excel File Writer based on NPOI.
 	excel.Set("测试6", testData, false);
 	excel.Save("d.xls");
 
-![](/images/c.png)
-![](/images/d.png)
+![](/images/c.PNG)
+![](/images/d.PNG)
 
 ## reference
 ### ExcelFile
