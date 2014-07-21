@@ -9,7 +9,7 @@ A Excel File Writer based on NPOI.
     excel.Row().Cell("test2").Cell(3);
     excel.Save("a.xls");
 
-![](/images/a.JPG)
+![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/a.JPG)
 
 	var excel2 = new ExcelFile();
     excel2.Sheet("test2 sheet");
@@ -17,7 +17,7 @@ A Excel File Writer based on NPOI.
     excel2.Row(15).Empty().Cell(1).Cell(2, excel2.NewStyle().Color(HSSFColor.Red.Index));
     excel2.Save("b.xls");
 
-![](/images/b.JPG)
+![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/b.JPG)
 
 	var excel = new ExcelEditor("c.xls");
 	excel.Set("测试", "sss");
@@ -41,8 +41,8 @@ A Excel File Writer based on NPOI.
 	excel.Set("测试6", testData, false);
 	excel.Save("d.xls");
 
-![](/images/c.PNG)
-![](/images/d.PNG)
+![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/c.PNG)
+![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/d.PNG)
 
 ## reference
 ### ExcelFile
