@@ -36,7 +36,10 @@ namespace ExcelFile.net
         /// <param name="value"></param>
         public void Set(string name, string value)
         {
-            Find(name).SetCellValue(value);
+            foreach (var cell in FindCells(name))
+            {
+                cell.SetCellValue(value);
+            }
         }
         /// <summary>
         ///     设置单元格的值
@@ -45,7 +48,10 @@ namespace ExcelFile.net
         /// <param name="value"></param>
         public void Set(string name, double value)
         {
-            Find(name).SetCellValue(value);
+            foreach (var cell in FindCells(name))
+            {
+                cell.SetCellValue(value);
+            }
         }
         /// <summary>
         ///     设置单元格的值
@@ -54,7 +60,10 @@ namespace ExcelFile.net
         /// <param name="value"></param>
         public void Set(string name, bool value)
         {
-            Find(name).SetCellValue(value);
+            foreach (var cell in FindCells(name))
+            {
+                cell.SetCellValue(value);
+            }
         }
         /// <summary>
         ///     设置单元格的值
@@ -63,7 +72,10 @@ namespace ExcelFile.net
         /// <param name="value"></param>
         public void Set(string name, DateTime value)
         {
-            Find(name).SetCellValue(value);
+            foreach (var cell in FindCells(name))
+            {
+                cell.SetCellValue(value);
+            }
         }
         private static void Set<T>(ICell cell, T value, Type type = null)
         {
@@ -121,9 +133,13 @@ namespace ExcelFile.net
             var fields = type.GetFields();
             if (properties.Length + fields.Length == 0)
             {
-                throw new Exception("no member");
+                return;
             }
             var row = FindRow(name);
+            if (row == null)
+            {
+                return;
+            }
             if (values.Count == 0)
             {
                 if (willCopyRow)
@@ -182,9 +198,10 @@ namespace ExcelFile.net
                 row = nextRow;
             }
         }
-        private ICell Find(string name)
+        private IEnumerable<ICell> FindCells(string name)
         {
             name = GetPlaceHolderName(name);
+            var result = new List<ICell>();
             for (var i = 0; i < _workbook.NumberOfSheets; i++)
             {
                 var sheet = _workbook[i];
@@ -205,12 +222,12 @@ namespace ExcelFile.net
                         if (cell.CellType == CellType.String
                             && cell.StringCellValue.Trim() == name)
                         {
-                            return cell;
+                            result.Add(cell);
                         }
                     }
                 }
             }
-            throw new Exception(name + " not found in excel");
+            return result;
         }
         private IRow FindRow(string name)
         {
@@ -240,7 +257,7 @@ namespace ExcelFile.net
                     }
                 }
             }
-            throw new Exception(name + " not found in excel");
+            return null;
         }
         private void RemovePlaceHolder(string name)
         {
