@@ -12,7 +12,7 @@ using NPOI.XSSF.UserModel;
 namespace ExcelFile.net
 {
     /// <summary>
-    ///     从Excel模板中插入数据的类
+    ///     向Excel模板中插入数据的类
     /// </summary>
     public class ExcelEditor
     {
@@ -36,9 +36,10 @@ namespace ExcelFile.net
         /// <param name="value"></param>
         public void Set(string name, string value)
         {
-            foreach (var cell in FindCells(name))
+            var placeHolderName = GetPlaceHolderName(name);
+            foreach (var cell in FindCells(placeHolderName))
             {
-                cell.SetCellValue(value);
+                cell.SetCellValue(cell.StringCellValue.Replace(placeHolderName, value));
             }
         }
         /// <summary>
@@ -46,11 +47,20 @@ namespace ExcelFile.net
         /// </summary>
         /// <param name="name"></param>
         /// <param name="value"></param>
-        public void Set(string name, double value)
+        /// <param name="format"></param>
+        public void Set(string name, double value, string format = null)
         {
-            foreach (var cell in FindCells(name))
+            var placeHolderName = GetPlaceHolderName(name);
+            foreach (var cell in FindCells(placeHolderName))
             {
-                cell.SetCellValue(value);
+                if (cell.StringCellValue == placeHolderName)
+                {
+                    cell.SetCellValue(value);
+                }
+                else
+                {
+                    cell.SetCellValue(format == null ? cell.StringCellValue.Replace(placeHolderName, value.ToString()) : cell.StringCellValue.Replace(name, value.ToString(format)));
+                }
             }
         }
         /// <summary>
@@ -60,9 +70,17 @@ namespace ExcelFile.net
         /// <param name="value"></param>
         public void Set(string name, bool value)
         {
-            foreach (var cell in FindCells(name))
+            var placeHolderName = GetPlaceHolderName(name);
+            foreach (var cell in FindCells(placeHolderName))
             {
-                cell.SetCellValue(value);
+                if (cell.StringCellValue == placeHolderName)
+                {
+                    cell.SetCellValue(value);
+                }
+                else
+                {
+                    cell.SetCellValue(cell.StringCellValue.Replace(placeHolderName, value.ToString()));
+                }
             }
         }
         /// <summary>
@@ -70,14 +88,23 @@ namespace ExcelFile.net
         /// </summary>
         /// <param name="name"></param>
         /// <param name="value"></param>
-        public void Set(string name, DateTime value)
+        /// <param name="format"></param>
+        public void Set(string name, DateTime value, string format = null)
         {
-            foreach (var cell in FindCells(name))
+            var placeHolderName = GetPlaceHolderName(name);
+            foreach (var cell in FindCells(placeHolderName))
             {
-                cell.SetCellValue(value);
+                if (cell.StringCellValue == placeHolderName)
+                {
+                    cell.SetCellValue(value);
+                }
+                else
+                {
+                    cell.SetCellValue(format == null ? cell.StringCellValue.Replace(placeHolderName, value.ToString()) : cell.StringCellValue.Replace(name, value.ToString(format)));
+                }
             }
         }
-        private static void Set<T>(ICell cell, T value, Type type = null)
+        private static void Set<T>(ICell cell, string name, T value, Type type = null, string format = null)
         {
             if (type == null)
             {
@@ -85,15 +112,29 @@ namespace ExcelFile.net
             }
             if (type == typeof (string))
             {
-                cell.SetCellValue(value as string);
+                cell.SetCellValue(cell.StringCellValue.Replace(name, value as string));
             }
             else if (type == typeof (DateTime))
             {
-                cell.SetCellValue(Convert.ToDateTime(value));
+                if (cell.StringCellValue == name)
+                {
+                    cell.SetCellValue(Convert.ToDateTime(value));
+                }
+                else
+                {
+                    cell.SetCellValue(format == null ? cell.StringCellValue.Replace(name, value.ToString()) : cell.StringCellValue.Replace(name, Convert.ToDateTime(value).ToString(format)));
+                }
             }
             else if (type == typeof (bool))
             {
-                cell.SetCellValue(Convert.ToBoolean(value));
+                if (cell.StringCellValue == name)
+                {
+                    cell.SetCellValue(Convert.ToBoolean(value));
+                }
+                else
+                {
+                    cell.SetCellValue(cell.StringCellValue.Replace(name, value.ToString()));
+                }
             }
             else if (type == typeof (double)
                      || type == typeof (float)
@@ -104,7 +145,14 @@ namespace ExcelFile.net
                      || type == typeof (UInt16)
                      || type == typeof (UInt64))
             {
-                cell.SetCellValue(Convert.ToDouble(value));
+                if (cell.StringCellValue == name)
+                {
+                    cell.SetCellValue(Convert.ToDouble(value));
+                }
+                else
+                {
+                    cell.SetCellValue(format == null ? cell.StringCellValue.Replace(name, value.ToString()) : cell.StringCellValue.Replace(name, Convert.ToDouble(value).ToString(format)));
+                }
             }
             else
             {
@@ -135,7 +183,8 @@ namespace ExcelFile.net
             {
                 return;
             }
-            var row = FindRow(name);
+            var startOfPlaceHolderName = GetStartOfPlaceHolderName(name);
+            var row = FindRow(startOfPlaceHolderName);
             if (row == null)
             {
                 return;
@@ -148,7 +197,7 @@ namespace ExcelFile.net
                 }
                 else
                 {
-                    RemovePlaceHolder(name);
+                    RemovePlaceHolder(row, startOfPlaceHolderName);
                 }
                 return;
             }
@@ -166,7 +215,8 @@ namespace ExcelFile.net
                 foreach (var propertyInfo in properties)
                 {
                     var result = type.InvokeMember(propertyInfo.Name, BindingFlags.GetProperty, null, value, null);
-                    var cell = Find(row, Combine(name, propertyInfo.Name));
+                    var placeHolderName = GetPlaceHolderName(Combine(name, propertyInfo.Name));
+                    var cell = Find(row, placeHolderName);
                     if (!willCopyRow
                         && i != values.Count - 1)
                     {
@@ -177,12 +227,13 @@ namespace ExcelFile.net
                         }
                         nextCell.SetCellValue(cell.StringCellValue);
                     }
-                    Set(cell, result);
+                    Set(cell, placeHolderName, result);
                 }
                 foreach (var fieldInfo in fields)
                 {
                     var result = type.InvokeMember(fieldInfo.Name, BindingFlags.GetField, null, value, null);
-                    var cell = Find(row, Combine(name, fieldInfo.Name));
+                    var placeHolderName = GetPlaceHolderName(Combine(name, fieldInfo.Name));
+                    var cell = Find(row, placeHolderName);
                     if (!willCopyRow
                         && i != values.Count - 1)
                     {
@@ -193,14 +244,13 @@ namespace ExcelFile.net
                         }
                         nextCell.SetCellValue(cell.StringCellValue);
                     }
-                    Set(cell, result);
+                    Set(cell, placeHolderName, result);
                 }
                 row = nextRow;
             }
         }
         private IEnumerable<ICell> FindCells(string name)
         {
-            name = GetPlaceHolderName(name);
             var result = new List<ICell>();
             for (var i = 0; i < _workbook.NumberOfSheets; i++)
             {
@@ -220,7 +270,7 @@ namespace ExcelFile.net
                             cell = row.CreateCell(k);
                         }
                         if (cell.CellType == CellType.String
-                            && cell.StringCellValue.Trim() == name)
+                            && cell.StringCellValue.Contains(name))
                         {
                             result.Add(cell);
                         }
@@ -231,7 +281,6 @@ namespace ExcelFile.net
         }
         private IRow FindRow(string name)
         {
-            name = GetStartOfPlaceHolderName(name);
             for (var i = 0; i < _workbook.NumberOfSheets; i++)
             {
                 var sheet = _workbook[i];
@@ -250,7 +299,7 @@ namespace ExcelFile.net
                             cell = row.CreateCell(k);
                         }
                         if (cell.CellType == CellType.String
-                            && cell.StringCellValue.Trim().StartsWith(name))
+                            && cell.StringCellValue.Contains(name))
                         {
                             return cell.Row;
                         }
@@ -259,9 +308,8 @@ namespace ExcelFile.net
             }
             return null;
         }
-        private void RemovePlaceHolder(string name)
+        private static void RemovePlaceHolder(IRow row, string name)
         {
-            var row = FindRow(name);
             for (var k = 0; k < row.LastCellNum; k++)
             {
                 var cell = row.GetCell(k);
@@ -270,7 +318,7 @@ namespace ExcelFile.net
                     cell = row.CreateCell(k);
                 }
                 if (cell.CellType == CellType.String
-                    && cell.StringCellValue.Trim().StartsWith(GetStartOfPlaceHolderName(name)))
+                    && cell.StringCellValue.Contains(name))
                 {
                     row.RemoveCell(cell);
                 }
@@ -278,26 +326,41 @@ namespace ExcelFile.net
         }
         private static ICell Find(IRow row, string name)
         {
-            name = GetPlaceHolderName(name);
             for (var k = 0; k < row.PhysicalNumberOfCells; k++)
             {
                 var cell = row.Cells[k];
                 if (cell.CellType == CellType.String
-                    && cell.StringCellValue.Trim() == name)
+                    && cell.StringCellValue.Contains(name))
                 {
                     return cell;
                 }
             }
             throw new Exception(name + " not found in row:" + row.RowNum);
         }
+        /// <summary>
+        ///     "VariableA"->"{VariableA}"
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private static string GetPlaceHolderName(string name)
         {
             return string.Format("{{{0}}}", name);
         }
+        /// <summary>
+        ///     "ClassA"、"MemberB"->"ClassA-MemberB"
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="memberName"></param>
+        /// <returns></returns>
         private static string Combine(string name, string memberName)
         {
             return name + "-" + memberName;
         }
+        /// <summary>
+        ///     "ClassA"->"{ClassA-"
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private static string GetStartOfPlaceHolderName(string name)
         {
             return string.Format("{{{0}-", name);
