@@ -28,7 +28,12 @@ namespace ExcelFile.net
             {
                 _workbook = is2007OrMore ? new XSSFWorkbook(stream) as IWorkbook : new HSSFWorkbook(stream);
             }
+            WarningMessage = new List<string>();
         }
+        /// <summary>
+        ///     警告信息
+        /// </summary>
+        public List<string> WarningMessage { get; private set; }
         /// <summary>
         ///     设置单元格的值
         /// </summary>
@@ -277,6 +282,10 @@ namespace ExcelFile.net
                     }
                 }
             }
+            if (result.Count == 0)
+            {
+                WarningMessage.Add(string.Format("变量\"{0}\"未被使用，可以删除", name));
+            }
             return result;
         }
         private IRow FindRow(string name)
@@ -306,6 +315,7 @@ namespace ExcelFile.net
                     }
                 }
             }
+            WarningMessage.Add(string.Format("变量\"{0}\"未被使用，可以删除", name));
             return null;
         }
         private static void RemovePlaceHolder(IRow row, string name)
@@ -342,8 +352,13 @@ namespace ExcelFile.net
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        private static string GetPlaceHolderName(string name)
+        private string GetPlaceHolderName(string name)
         {
+            if (name.Contains("{")
+                || name.Contains("}"))
+            {
+                WarningMessage.Add(string.Format("变量名\"{0}\"不应该包含大括号", name));
+            }
             return string.Format("{{{0}}}", name);
         }
         /// <summary>
@@ -361,8 +376,14 @@ namespace ExcelFile.net
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        private static string GetStartOfPlaceHolderName(string name)
+        private string GetStartOfPlaceHolderName(string name)
         {
+            if (name.Contains("{")
+                || name.Contains("}")
+                || name.Contains("-"))
+            {
+                WarningMessage.Add(string.Format("变量名\"{0}\"不应该包含大括号或'-'", name));
+            }
             return string.Format("{{{0}-", name);
         }
         /// <summary>
