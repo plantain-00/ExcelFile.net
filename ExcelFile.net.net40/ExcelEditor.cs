@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Web;
 
-using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
 
 namespace ExcelFile.net
 {
@@ -24,10 +21,7 @@ namespace ExcelFile.net
         /// <param name="is2007OrMore"></param>
         public ExcelEditor(string file, bool is2007OrMore = false)
         {
-            using (var stream = new FileStream(file, FileMode.Open, FileAccess.Read))
-            {
-                _workbook = is2007OrMore ? new XSSFWorkbook(stream) as IWorkbook : new HSSFWorkbook(stream);
-            }
+            _workbook = ExcelUtils.New(file, FileMode.Open, FileAccess.Read, is2007OrMore);
             WarningMessage = new List<string>();
         }
         /// <summary>
@@ -260,14 +254,14 @@ namespace ExcelFile.net
             for (var i = 0; i < _workbook.NumberOfSheets; i++)
             {
                 var sheet = _workbook[i];
-                for (var j = 0; j <= sheet.LastRowNum; j++)
+                for (var j = sheet.FirstRowNum; j <= sheet.LastRowNum; j++)
                 {
                     var row = sheet.GetRow(j);
                     if (row == null)
                     {
                         row = sheet.CreateRow(j);
                     }
-                    for (var k = 0; k < row.LastCellNum; k++)
+                    for (var k = row.FirstCellNum; k < row.LastCellNum; k++)
                     {
                         var cell = row.GetCell(k);
                         if (cell == null)
@@ -293,14 +287,14 @@ namespace ExcelFile.net
             for (var i = 0; i < _workbook.NumberOfSheets; i++)
             {
                 var sheet = _workbook[i];
-                for (var j = 0; j <= sheet.LastRowNum; j++)
+                for (var j = sheet.FirstRowNum; j <= sheet.LastRowNum; j++)
                 {
                     var row = sheet.GetRow(j);
                     if (row == null)
                     {
                         row = sheet.CreateRow(j);
                     }
-                    for (var k = 0; k < row.LastCellNum; k++)
+                    for (var k = row.FirstCellNum; k < row.LastCellNum; k++)
                     {
                         var cell = row.GetCell(k);
                         if (cell == null)
@@ -393,15 +387,7 @@ namespace ExcelFile.net
         /// <param name="fileName"></param>
         public void Save(HttpResponse response, string fileName)
         {
-            response.ContentType = "application/vnd.ms-excel";
-            response.AddHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(fileName + ".xls", Encoding.UTF8));
-            using (var stream = new MemoryStream())
-            {
-                _workbook.Write(stream);
-                stream.Flush();
-                stream.Position = 0;
-                stream.WriteTo(response.OutputStream);
-            }
+            ExcelUtils.Save(_workbook, response, fileName);
         }
         /// <summary>
         ///     本地保存Excel文件
@@ -409,10 +395,7 @@ namespace ExcelFile.net
         /// <param name="file"></param>
         public void Save(string file)
         {
-            using (var stream = new FileStream(file, FileMode.Create, FileAccess.Write))
-            {
-                _workbook.Write(stream);
-            }
+            ExcelUtils.Save(_workbook, file);
         }
     }
 }

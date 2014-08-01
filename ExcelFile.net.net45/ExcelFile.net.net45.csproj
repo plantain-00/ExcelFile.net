@@ -52,6 +52,7 @@
     <Compile Include="..\ExcelFile.net.net40\ExcelStyle.cs" />
     <Compile Include="..\ExcelFile.net.net40\ExcelFile.cs" />
     <Compile Include="..\ExcelFile.net.net40\ExcelEditor.cs" />
+	<Compile Include="..\ExcelFile.net.net40\ExcelUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\ExcelFile.net.net40\packages.config" />

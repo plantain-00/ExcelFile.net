@@ -49,9 +49,14 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enumerable\EnumerableCell.cs" />
+    <Compile Include="Enumerable\EnumerableRow.cs" />
+    <Compile Include="Enumerable\EnumerableSheet.cs" />
+    <Compile Include="Enumerable\ExcelExtension.cs" />
     <Compile Include="ExcelEditor.cs" />
     <Compile Include="ExcelStyle.cs" />
     <Compile Include="ExcelFile.cs" />
+    <Compile Include="ExcelUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

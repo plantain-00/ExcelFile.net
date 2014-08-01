@@ -1,12 +1,8 @@
 using System;
-using System.IO;
-using System.Text;
 using System.Web;
 
-using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
-using NPOI.XSSF.UserModel;
 
 namespace ExcelFile.net
 {
@@ -41,7 +37,7 @@ namespace ExcelFile.net
         /// <param name="is2007OrMore"></param>
         public ExcelFile(bool is2007OrMore = false)
         {
-            _workbook = is2007OrMore ? new XSSFWorkbook() as IWorkbook : new HSSFWorkbook();
+            _workbook = ExcelUtils.New(is2007OrMore);
             _cellStyle = _workbook.CreateCellStyle();
             _cellStyle.Alignment = HorizontalAlignment.Center;
             _cellStyle.VerticalAlignment = VerticalAlignment.Top;
@@ -311,15 +307,7 @@ namespace ExcelFile.net
         /// <param name="fileName"></param>
         public void Save(HttpResponse response, string fileName)
         {
-            response.ContentType = "application/vnd.ms-excel";
-            response.AddHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(fileName + ".xls", Encoding.UTF8));
-            using (var stream = new MemoryStream())
-            {
-                _workbook.Write(stream);
-                stream.Flush();
-                stream.Position = 0;
-                stream.WriteTo(response.OutputStream);
-            }
+            ExcelUtils.Save(_workbook, response, fileName);
         }
         /// <summary>
         ///     本地保存Excel文件
@@ -327,10 +315,7 @@ namespace ExcelFile.net
         /// <param name="file"></param>
         public void Save(string file)
         {
-            using (var stream = new FileStream(file, FileMode.Create, FileAccess.Write))
-            {
-                _workbook.Write(stream);
-            }
+            ExcelUtils.Save(_workbook, file);
         }
     }
 }
