@@ -1,9 +1,9 @@
 ExcelFile.net
 =============
 
-1. a Fluent Excel File Writer based on NPOI.
-2. a Excel template editor.
-3. a enumerator of worksheets, rows and cells.
++ a Fluent Excel File Writer based on NPOI.
++ a Excel template editor.
++ a enumerator of worksheets, rows and cells.
 
     var excel = new ExcelFile();
     excel.Sheet("test sheet");
