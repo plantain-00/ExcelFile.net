@@ -52,10 +52,10 @@
     <Compile Include="..\ExcelFile.net.net40\ExcelStyle.cs" />
     <Compile Include="..\ExcelFile.net.net40\ExcelFile.cs" />
     <Compile Include="..\ExcelFile.net.net40\ExcelEditor.cs" />
-	<Compile Include="..\ExcelFile.net.net40\ExcelUtils.cs" />
+    <Compile Include="..\ExcelFile.net.net40\ExcelUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\ExcelFile.net.net40\packages.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

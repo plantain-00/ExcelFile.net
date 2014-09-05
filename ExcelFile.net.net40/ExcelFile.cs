@@ -25,23 +25,28 @@ namespace ExcelFile.net
     /// </summary>
     public class ExcelFile
     {
+        /// <summary>
+        ///     当前工作簿
+        /// </summary>
+        public readonly IWorkbook Workbook;
         private readonly ICellStyle _cellStyle;
-        private readonly IWorkbook _workbook;
         private ICell _cell;
         private IRow _row;
         private ICellStyle _rowStyle;
         private ISheet _sheet;
+
         /// <summary>
         ///     构造Excel文件对象
         /// </summary>
         /// <param name="is2007OrMore"></param>
         public ExcelFile(bool is2007OrMore = false)
         {
-            _workbook = ExcelUtils.New(is2007OrMore);
-            _cellStyle = _workbook.CreateCellStyle();
+            Workbook = ExcelUtils.New(is2007OrMore);
+            _cellStyle = Workbook.CreateCellStyle();
             _cellStyle.Alignment = HorizontalAlignment.Center;
             _cellStyle.VerticalAlignment = VerticalAlignment.Top;
         }
+
         /// <summary>
         ///     获得默认样式
         /// </summary>
@@ -49,17 +54,19 @@ namespace ExcelFile.net
         {
             get
             {
-                return new ExcelStyle(_cellStyle, _workbook.CreateFont());
+                return new ExcelStyle(_cellStyle, Workbook.CreateFont());
             }
         }
+
         /// <summary>
         ///     新建样式
         /// </summary>
         /// <returns></returns>
         public ExcelStyle NewStyle()
         {
-            return new ExcelStyle(_workbook.CreateCellStyle(), _workbook.CreateFont());
+            return new ExcelStyle(Workbook.CreateCellStyle(), Workbook.CreateFont());
         }
+
         /// <summary>
         ///     新建工作表
         /// </summary>
@@ -67,7 +74,7 @@ namespace ExcelFile.net
         /// <returns></returns>
         public ExcelFile Sheet(params int[] columnWidths)
         {
-            _sheet = _workbook.CreateSheet();
+            _sheet = Workbook.CreateSheet();
             for (var i = 0; i < columnWidths.Length; i++)
             {
                 _sheet.SetColumnWidth(i, columnWidths[i] * 256);
@@ -76,6 +83,7 @@ namespace ExcelFile.net
             _cell = null;
             return this;
         }
+
         /// <summary>
         ///     新建工作表
         /// </summary>
@@ -84,7 +92,7 @@ namespace ExcelFile.net
         /// <returns></returns>
         public ExcelFile Sheet(string name, params int[] widths)
         {
-            _sheet = _workbook.CreateSheet(name);
+            _sheet = Workbook.CreateSheet(name);
             for (var i = 0; i < widths.Length; i++)
             {
                 _sheet.SetColumnWidth(i, widths[i] * 256);
@@ -93,6 +101,7 @@ namespace ExcelFile.net
             _cell = null;
             return this;
         }
+
         /// <summary>
         ///     默认行高
         /// </summary>
@@ -103,6 +112,7 @@ namespace ExcelFile.net
             _sheet.DefaultRowHeightInPoints = height;
             return this;
         }
+
         /// <summary>
         ///     新建行
         /// </summary>
@@ -115,6 +125,7 @@ namespace ExcelFile.net
             _rowStyle = rowStyle == null ? null : rowStyle.Style;
             return this;
         }
+
         /// <summary>
         ///     新建行
         /// </summary>
@@ -127,6 +138,7 @@ namespace ExcelFile.net
             _row.Height = (short) (height * 20);
             return this;
         }
+
         /// <summary>
         ///     新建空单元格
         /// </summary>
@@ -140,6 +152,7 @@ namespace ExcelFile.net
             }
             return this;
         }
+
         /// <summary>
         ///     新建单元格
         /// </summary>
@@ -164,6 +177,7 @@ namespace ExcelFile.net
             }
             return this;
         }
+
         /// <summary>
         ///     新建单元格
         /// </summary>
@@ -179,6 +193,7 @@ namespace ExcelFile.net
             Empty(colspan - 1);
             return this;
         }
+
         /// <summary>
         ///     新建单元格
         /// </summary>
@@ -203,6 +218,7 @@ namespace ExcelFile.net
             }
             return this;
         }
+
         /// <summary>
         ///     新建单元格
         /// </summary>
@@ -218,6 +234,7 @@ namespace ExcelFile.net
             Empty(colspan - 1);
             return this;
         }
+
         /// <summary>
         ///     新建单元格
         /// </summary>
@@ -242,6 +259,7 @@ namespace ExcelFile.net
             }
             return this;
         }
+
         /// <summary>
         ///     新建单元格
         /// </summary>
@@ -257,6 +275,7 @@ namespace ExcelFile.net
             Empty(colspan - 1);
             return this;
         }
+
         /// <summary>
         ///     新建单元格
         /// </summary>
@@ -281,6 +300,7 @@ namespace ExcelFile.net
             }
             return this;
         }
+
         /// <summary>
         ///     新建单元格
         /// </summary>
@@ -296,26 +316,41 @@ namespace ExcelFile.net
             Empty(colspan - 1);
             return this;
         }
+
         private void Merge(int row, int column, int rowspan, int colspan)
         {
             _sheet.AddMergedRegion(new CellRangeAddress(row, row + rowspan - 1, column, column + colspan - 1));
         }
+
         /// <summary>
-        ///     远程下载Excel文件
+        ///     远程下载Excel文件，MVC中return new EmptyResult();
         /// </summary>
         /// <param name="response"></param>
-        /// <param name="fileName"></param>
+        /// <param name="fileName">带扩展名</param>
         public void Save(HttpResponse response, string fileName)
         {
-            ExcelUtils.Save(_workbook, response, fileName);
+            ExcelUtils.Save(Workbook, response, fileName);
         }
+
         /// <summary>
         ///     本地保存Excel文件
         /// </summary>
-        /// <param name="file"></param>
+        /// <param name="file">带扩展名</param>
         public void Save(string file)
         {
-            ExcelUtils.Save(_workbook, file);
+            ExcelUtils.Save(Workbook, file);
         }
+
+#if !NET20 &&!NET30 &&!NET35
+        /// <summary>
+        ///     远程下载Excel文件，MVC中return new EmptyResult();
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="fileName">带扩展名</param>
+        public void Save(HttpResponseBase response, string fileName)
+        {
+            ExcelUtils.Save(Workbook, response, fileName);
+        }
+#endif
     }
 }

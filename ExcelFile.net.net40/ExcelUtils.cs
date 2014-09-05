@@ -28,6 +28,7 @@ namespace ExcelFile.net
                 return is2007OrMore ? new XSSFWorkbook(stream) as IWorkbook : new HSSFWorkbook(stream);
             }
         }
+
         /// <summary>
         ///     新建空Excel工作簿
         /// </summary>
@@ -37,16 +38,17 @@ namespace ExcelFile.net
         {
             return is2007OrMore ? new XSSFWorkbook() as IWorkbook : new HSSFWorkbook();
         }
+
         /// <summary>
         ///     远程下载Excel文件
         /// </summary>
         /// <param name="response"></param>
-        /// <param name="fileName"></param>
+        /// <param name="fileName">带扩展名</param>
         /// <param name="workbook"></param>
         public static void Save(IWorkbook workbook, HttpResponse response, string fileName)
         {
             response.ContentType = "application/vnd.ms-excel";
-            response.AddHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(fileName + ".xls", Encoding.UTF8));
+            response.AddHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(fileName, Encoding.UTF8));
             using (var stream = new MemoryStream())
             {
                 workbook.Write(stream);
@@ -55,10 +57,11 @@ namespace ExcelFile.net
                 stream.WriteTo(response.OutputStream);
             }
         }
+
         /// <summary>
         ///     本地保存Excel文件
         /// </summary>
-        /// <param name="file"></param>
+        /// <param name="file">带扩展名</param>
         /// <param name="workbook"></param>
         public static void Save(IWorkbook workbook, string file)
         {
@@ -67,5 +70,26 @@ namespace ExcelFile.net
                 workbook.Write(stream);
             }
         }
+
+#if !NET20 &&!NET30 &&!NET35
+        /// <summary>
+        ///     远程下载Excel文件
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="fileName">带扩展名</param>
+        /// <param name="workbook"></param>
+        public static void Save(IWorkbook workbook, HttpResponseBase response, string fileName)
+        {
+            response.ContentType = "application/vnd.ms-excel";
+            response.AddHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(fileName, Encoding.UTF8));
+            using (var stream = new MemoryStream())
+            {
+                workbook.Write(stream);
+                stream.Flush();
+                stream.Position = 0;
+                stream.WriteTo(response.OutputStream);
+            }
+        }
+#endif
     }
 }

@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\bin\net35\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET35</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\bin\net35\ExcelFile.net.XML</DocumentationFile>
@@ -50,10 +50,10 @@
     <Compile Include="..\ExcelFile.net.net40\ExcelStyle.cs" />
     <Compile Include="..\ExcelFile.net.net40\ExcelFile.cs" />
     <Compile Include="..\ExcelFile.net.net40\ExcelEditor.cs" />
-	<Compile Include="..\ExcelFile.net.net40\ExcelUtils.cs" />
+    <Compile Include="..\ExcelFile.net.net40\ExcelUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\ExcelFile.net.net40\packages.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

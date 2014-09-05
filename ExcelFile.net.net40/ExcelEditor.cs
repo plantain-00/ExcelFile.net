@@ -13,7 +13,11 @@ namespace ExcelFile.net
     /// </summary>
     public class ExcelEditor
     {
-        private readonly IWorkbook _workbook;
+        /// <summary>
+        ///     当前工作簿
+        /// </summary>
+        public readonly IWorkbook Workbook;
+
         /// <summary>
         ///     构造Excel编辑对象
         /// </summary>
@@ -21,13 +25,15 @@ namespace ExcelFile.net
         /// <param name="is2007OrMore"></param>
         public ExcelEditor(string file, bool is2007OrMore = false)
         {
-            _workbook = ExcelUtils.New(file, FileMode.Open, FileAccess.Read, is2007OrMore);
+            Workbook = ExcelUtils.New(file, FileMode.Open, FileAccess.Read, is2007OrMore);
             WarningMessage = new List<string>();
         }
+
         /// <summary>
         ///     警告信息
         /// </summary>
         public List<string> WarningMessage { get; private set; }
+
         /// <summary>
         ///     设置单元格的值
         /// </summary>
@@ -41,6 +47,7 @@ namespace ExcelFile.net
                 cell.SetCellValue(cell.StringCellValue.Replace(placeHolderName, value));
             }
         }
+
         /// <summary>
         ///     设置单元格的值
         /// </summary>
@@ -62,6 +69,7 @@ namespace ExcelFile.net
                 }
             }
         }
+
         /// <summary>
         ///     设置单元格的值
         /// </summary>
@@ -82,6 +90,7 @@ namespace ExcelFile.net
                 }
             }
         }
+
         /// <summary>
         ///     设置单元格的值
         /// </summary>
@@ -103,6 +112,7 @@ namespace ExcelFile.net
                 }
             }
         }
+
         private static void Set<T>(ICell cell, string name, T value, Type type = null, string format = null)
         {
             if (type == null)
@@ -158,6 +168,7 @@ namespace ExcelFile.net
                 throw new Exception("cannot support type:" + type.FullName);
             }
         }
+
         /// <summary>
         ///     设置单元格的值
         ///     在外部缓存T的Type会提高性能
@@ -248,12 +259,13 @@ namespace ExcelFile.net
                 row = nextRow;
             }
         }
+
         private IEnumerable<ICell> FindCells(string name)
         {
             var result = new List<ICell>();
-            for (var i = 0; i < _workbook.NumberOfSheets; i++)
+            for (var i = 0; i < Workbook.NumberOfSheets; i++)
             {
-                var sheet = _workbook[i];
+                var sheet = Workbook[i];
                 for (var j = sheet.FirstRowNum; j <= sheet.LastRowNum; j++)
                 {
                     var row = sheet.GetRow(j);
@@ -282,11 +294,12 @@ namespace ExcelFile.net
             }
             return result;
         }
+
         private IRow FindRow(string name)
         {
-            for (var i = 0; i < _workbook.NumberOfSheets; i++)
+            for (var i = 0; i < Workbook.NumberOfSheets; i++)
             {
-                var sheet = _workbook[i];
+                var sheet = Workbook[i];
                 for (var j = sheet.FirstRowNum; j <= sheet.LastRowNum; j++)
                 {
                     var row = sheet.GetRow(j);
@@ -312,6 +325,7 @@ namespace ExcelFile.net
             WarningMessage.Add(string.Format("变量\"{0}\"未被使用，可以删除", name));
             return null;
         }
+
         private static void RemovePlaceHolder(IRow row, string name)
         {
             for (var k = 0; k < row.LastCellNum; k++)
@@ -328,6 +342,7 @@ namespace ExcelFile.net
                 }
             }
         }
+
         private static ICell Find(IRow row, string name)
         {
             for (var k = 0; k < row.PhysicalNumberOfCells; k++)
@@ -341,6 +356,7 @@ namespace ExcelFile.net
             }
             throw new Exception(name + " not found in row:" + row.RowNum);
         }
+
         /// <summary>
         ///     "VariableA"->"{VariableA}"
         /// </summary>
@@ -355,6 +371,7 @@ namespace ExcelFile.net
             }
             return string.Format("{{{0}}}", name);
         }
+
         /// <summary>
         ///     "ClassA"、"MemberB"->"ClassA-MemberB"
         /// </summary>
@@ -365,6 +382,7 @@ namespace ExcelFile.net
         {
             return name + "-" + memberName;
         }
+
         /// <summary>
         ///     "ClassA"->"{ClassA-"
         /// </summary>
@@ -380,22 +398,36 @@ namespace ExcelFile.net
             }
             return string.Format("{{{0}-", name);
         }
+
         /// <summary>
-        ///     远程下载Excel文件
+        ///     远程下载Excel文件，MVC中return new EmptyResult();
         /// </summary>
         /// <param name="response"></param>
         /// <param name="fileName"></param>
         public void Save(HttpResponse response, string fileName)
         {
-            ExcelUtils.Save(_workbook, response, fileName);
+            ExcelUtils.Save(Workbook, response, fileName);
         }
+
         /// <summary>
         ///     本地保存Excel文件
         /// </summary>
         /// <param name="file"></param>
         public void Save(string file)
         {
-            ExcelUtils.Save(_workbook, file);
+            ExcelUtils.Save(Workbook, file);
         }
+
+#if !NET20 &&!NET30 &&!NET35
+        /// <summary>
+        ///     远程下载Excel文件，MVC中return new EmptyResult();
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="fileName"></param>
+        public void Save(HttpResponseBase response, string fileName)
+        {
+            ExcelUtils.Save(Workbook, response, fileName);
+        }
+#endif
     }
 }

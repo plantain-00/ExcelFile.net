@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelFile.net.net40", "ExcelFile.net.net40\ExcelFile.net.net40.csproj", "{2F6C45F3-B267-4FDD-8289-8994C635B9B4}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelFile.net.net30", "ExcelFile.net.net30\ExcelFile.net.net30.csproj", "{FEFB340D-4D2D-423B-8E88-F71FA1B0F393}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelFile.net.net35", "ExcelFile.net.net35\ExcelFile.net.net35.csproj", "{F8F3C18F-1279-491F-BD3F-C416FC1318C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelFile.net.Example.net40.MVC", "ExcelFile.net.Example.net40.MVC\ExcelFile.net.Example.net40.MVC.csproj", "{AFAB1C4C-D129-4E12-A348-E72FFA83602F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{F8F3C18F-1279-491F-BD3F-C416FC1318C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8F3C18F-1279-491F-BD3F-C416FC1318C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8F3C18F-1279-491F-BD3F-C416FC1318C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFAB1C4C-D129-4E12-A348-E72FFA83602F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFAB1C4C-D129-4E12-A348-E72FFA83602F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFAB1C4C-D129-4E12-A348-E72FFA83602F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFAB1C4C-D129-4E12-A348-E72FFA83602F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
