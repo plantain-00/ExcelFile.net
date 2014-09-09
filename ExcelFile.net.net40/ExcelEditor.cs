@@ -115,6 +115,11 @@ namespace ExcelFile.net
 
         private static void Set<T>(ICell cell, string name, T value, Type type = null, string format = null)
         {
+            if (value == null)
+            {
+                cell.SetCellType(CellType.Blank);
+                return;
+            }
             if (type == null)
             {
                 type = value.GetType();
@@ -152,7 +157,8 @@ namespace ExcelFile.net
                      || type == typeof (Int16)
                      || type == typeof (Int64)
                      || type == typeof (UInt16)
-                     || type == typeof (UInt64))
+                     || type == typeof (UInt64)
+                     || type == typeof (decimal))
             {
                 if (cell.StringCellValue == name)
                 {

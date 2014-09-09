@@ -23,7 +23,8 @@ namespace ExcelFile.net
         /// <returns></returns>
         public static IWorkbook New(string file, FileMode fileMode, FileAccess fileAccess, bool is2007OrMore = false)
         {
-            using (var stream = new FileStream(file, FileMode.Open, FileAccess.Read))
+            using (
+                var stream = new FileStream(file, FileMode.Open, FileAccess.Read))
             {
                 return is2007OrMore ? new XSSFWorkbook(stream) as IWorkbook : new HSSFWorkbook(stream);
             }
