@@ -5,7 +5,7 @@ ExcelFile.net
 + a Excel template editor.
 + a enumerator of worksheets, rows and cells.
 
-        var excel = new ExcelFile();
+    var excel = new ExcelFile();
     excel.Sheet("test sheet");
     excel.Row().Cell("test1").Cell(2);
     excel.Row().Cell("test2").Cell(3);
