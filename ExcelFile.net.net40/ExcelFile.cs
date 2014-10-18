@@ -38,10 +38,10 @@ namespace ExcelFile.net
         /// <summary>
         ///     构造Excel文件对象
         /// </summary>
-        /// <param name="is2007OrMore"></param>
-        public ExcelFile(bool is2007OrMore = false)
+        /// <param name="is2007OrLater"></param>
+        public ExcelFile(bool is2007OrLater = false)
         {
-            Workbook = ExcelUtils.New(is2007OrMore);
+            Workbook = ExcelUtils.New(is2007OrLater);
             _cellStyle = Workbook.CreateCellStyle();
             _cellStyle.Alignment = HorizontalAlignment.Center;
             _cellStyle.VerticalAlignment = VerticalAlignment.Top;

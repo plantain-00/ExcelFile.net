@@ -22,10 +22,11 @@ namespace ExcelFile.net
         ///     构造Excel编辑对象
         /// </summary>
         /// <param name="file"></param>
-        /// <param name="is2007OrMore"></param>
-        public ExcelEditor(string file, bool is2007OrMore = false)
+        /// <param name="is2007OrLater"></param>
+        /// <param name="willJudgeByExtensionName"></param>
+        public ExcelEditor(string file, bool is2007OrLater = false, bool willJudgeByExtensionName = true)
         {
-            Workbook = ExcelUtils.New(file, FileMode.Open, FileAccess.Read, is2007OrMore);
+            Workbook = ExcelUtils.New(file, FileMode.Open, FileAccess.Read, is2007OrLater, willJudgeByExtensionName);
             WarningMessage = new List<string>();
         }
 

@@ -53,6 +53,7 @@
     <Compile Include="Enumerable\EnumerableRow.cs" />
     <Compile Include="Enumerable\EnumerableSheet.cs" />
     <Compile Include="Enumerable\ExcelExtension.cs" />
+    <Compile Include="ExcelDataException.cs" />
     <Compile Include="ExcelEditor.cs" />
     <Compile Include="ExcelStyle.cs" />
     <Compile Include="ExcelFile.cs" />

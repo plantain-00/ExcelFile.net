@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using System.Web;
 
@@ -19,25 +20,36 @@ namespace ExcelFile.net
         /// <param name="file"></param>
         /// <param name="fileMode"></param>
         /// <param name="fileAccess"></param>
-        /// <param name="is2007OrMore"></param>
+        /// <param name="is2007OrLater"></param>
+        /// <param name="willJudgeByExtensionName"></param>
         /// <returns></returns>
-        public static IWorkbook New(string file, FileMode fileMode, FileAccess fileAccess, bool is2007OrMore = false)
+        public static IWorkbook New(string file, FileMode fileMode, FileAccess fileAccess, bool is2007OrLater = false, bool willJudgeByExtensionName = true)
         {
-            using (
-                var stream = new FileStream(file, FileMode.Open, FileAccess.Read))
+            if (willJudgeByExtensionName)
             {
-                return is2007OrMore ? new XSSFWorkbook(stream) as IWorkbook : new HSSFWorkbook(stream);
+                if (file.EndsWith(".xls"))
+                {
+                    is2007OrLater = false;
+                }
+                else if (file.EndsWith(".xlsx"))
+                {
+                    is2007OrLater = true;
+                }
+            }
+            using (var stream = new FileStream(file, FileMode.Open, FileAccess.Read))
+            {
+                return is2007OrLater ? new XSSFWorkbook(stream) as IWorkbook : new HSSFWorkbook(stream);
             }
         }
 
         /// <summary>
         ///     新建空Excel工作簿
         /// </summary>
-        /// <param name="is2007OrMore"></param>
+        /// <param name="is2007OrLater"></param>
         /// <returns></returns>
-        public static IWorkbook New(bool is2007OrMore = false)
+        public static IWorkbook New(bool is2007OrLater = false)
         {
-            return is2007OrMore ? new XSSFWorkbook() as IWorkbook : new HSSFWorkbook();
+            return is2007OrLater ? new XSSFWorkbook() as IWorkbook : new HSSFWorkbook();
         }
 
         /// <summary>
@@ -89,6 +101,78 @@ namespace ExcelFile.net
                 stream.Flush();
                 stream.Position = 0;
                 stream.WriteTo(response.OutputStream);
+            }
+        }
+
+        /// <summary>
+        ///     取字符串
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns></returns>
+        /// <exception cref="ExcelDataException"></exception>
+        public static string GetString(this ICell cell)
+        {
+            try
+            {
+                return cell.StringCellValue;
+            }
+            catch (Exception exception)
+            {
+                throw new ExcelDataException("Error when get a string from a Excel's cell.", exception, cell.RowIndex, cell.ColumnIndex);
+            }
+        }
+
+        /// <summary>
+        ///     取数字
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns></returns>
+        /// <exception cref="ExcelDataException"></exception>
+        public static double GetNumber(this ICell cell)
+        {
+            try
+            {
+                return cell.NumericCellValue;
+            }
+            catch (Exception exception)
+            {
+                throw new ExcelDataException("Error when get a number from a Excel's cell.", exception, cell.RowIndex, cell.ColumnIndex);
+            }
+        }
+
+        /// <summary>
+        ///     取Boolean
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns></returns>
+        /// <exception cref="ExcelDataException"></exception>
+        public static bool GetBoolean(this ICell cell)
+        {
+            try
+            {
+                return cell.BooleanCellValue;
+            }
+            catch (Exception exception)
+            {
+                throw new ExcelDataException("Error when get a bool value from a Excel's cell.", exception, cell.RowIndex, cell.ColumnIndex);
+            }
+        }
+
+        /// <summary>
+        ///     取日期
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns></returns>
+        /// <exception cref="ExcelDataException"></exception>
+        public static DateTime GetDate(this ICell cell)
+        {
+            try
+            {
+                return cell.DateCellValue;
+            }
+            catch (Exception exception)
+            {
+                throw new ExcelDataException("Error when get a date from a Excel's cell.", exception, cell.RowIndex, cell.ColumnIndex);
             }
         }
 #endif
