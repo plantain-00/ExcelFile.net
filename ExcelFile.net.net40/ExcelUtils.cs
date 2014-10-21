@@ -60,15 +60,8 @@ namespace ExcelFile.net
         /// <param name="workbook"></param>
         public static void Save(IWorkbook workbook, HttpResponse response, string fileName)
         {
-            response.ContentType = "application/vnd.ms-excel";
             response.AddHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(fileName, Encoding.UTF8));
-            using (var stream = new MemoryStream())
-            {
-                workbook.Write(stream);
-                stream.Flush();
-                stream.Position = 0;
-                stream.WriteTo(response.OutputStream);
-            }
+            workbook.Write(response.OutputStream);
         }
 
         /// <summary>
@@ -93,15 +86,8 @@ namespace ExcelFile.net
         /// <param name="workbook"></param>
         public static void Save(IWorkbook workbook, HttpResponseBase response, string fileName)
         {
-            response.ContentType = "application/vnd.ms-excel";
             response.AddHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(fileName, Encoding.UTF8));
-            using (var stream = new MemoryStream())
-            {
-                workbook.Write(stream);
-                stream.Flush();
-                stream.Position = 0;
-                stream.WriteTo(response.OutputStream);
-            }
+            workbook.Write(response.OutputStream);
         }
 
         /// <summary>
