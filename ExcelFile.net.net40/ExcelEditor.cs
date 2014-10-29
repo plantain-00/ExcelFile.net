@@ -222,13 +222,17 @@ namespace ExcelFile.net
             {
                 for (var i = 0; i < values.Count - 1; i++)
                 {
-                    row.CopyRowTo(row.RowNum + 1);
+                    row.CopyRowTo(row.RowNum + 1 + i);
                 }
             }
             for (var i = 0; i < values.Count; i++)
             {
                 var value = values[i];
                 var nextRow = row.Sheet.GetRow(row.RowNum + 1);
+                if (nextRow == null)
+                {
+                    nextRow = row.Sheet.CreateRow(row.RowNum + 1);
+                }
                 foreach (var propertyInfo in properties)
                 {
                     var result = type.InvokeMember(propertyInfo.Name, BindingFlags.GetProperty, null, value, null);

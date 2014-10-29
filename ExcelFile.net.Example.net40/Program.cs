@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace ExcelFile.net.Example.net40
@@ -17,29 +18,25 @@ namespace ExcelFile.net.Example.net40
             //excel2.Row(25, excel2.NewStyle().Background(HSSFColor.Yellow.Index)).Empty(2).Cell("test1");
             //excel2.Row(15).Empty().Cell(1).Cell(2, excel2.NewStyle().Color(HSSFColor.Red.Index));
             //excel2.Save("b.xls");
-            //var excel = new ExcelEditor("c.xlsx", true);
+            var excel = new ExcelEditor("c.xlsx", true);
             //excel.Set("测试", "sss");
             //excel.Set("测试2", 123.456);
             //excel.Set("测试3", false);
             //excel.Set("测试4", DateTime.Now);
-            //var testData = new[]
-            //               {
-            //                   new ClassA
-            //                   {
-            //                       F1 = "aa",
-            //                       F2 = 12
-            //                   },
-            //                   new ClassA
-            //                   {
-            //                       F1 = null,
-            //                       F2 = 121
-            //                   }
-            //               };
-            //excel.Set("测试5", testData);
+            var testData = new List<ClassA>();
+            for (var i = 0; i < 1000; i++)
+            {
+                testData.Add(new ClassA
+                             {
+                                 F1 = i.ToString(),
+                                 F2 = i * i
+                             });
+            }
+            excel.Set("测试5", testData, false);
             //excel.Set("测试6", testData, false);
             //excel.Set("测试7", new List<ClassA>());
             //excel.Set("测试8", new List<ClassA>(), false);
-            //excel.Save("d.xlsx");
+            excel.Save("d.xlsx");
             //foreach (var sheet in ExcelUtils.New("e.xls", FileMode.Open, FileAccess.Read).AsEnumerable())
             //{
             //    foreach (var row in sheet.AsEnumerable())
@@ -74,9 +71,9 @@ namespace ExcelFile.net.Example.net40
             //    }
             //}
 
-            var excel = ExcelUtils.New("c.xlsx", FileMode.Open, FileAccess.Read, true);
-            var b = excel.GetSheetAt(0).GetRow(0).GetCell(0).GetBoolean();
-            Console.Read();
+            //var excel = ExcelUtils.New("c.xlsx", FileMode.Open, FileAccess.Read, true);
+            //var b = excel.GetSheetAt(0).GetRow(0).GetCell(0).GetBoolean();
+            //Console.Read();
         }
     }
 
