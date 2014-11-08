@@ -9,9 +9,82 @@ using NPOI.SS.UserModel;
 namespace ExcelFile.net
 {
     /// <summary>
+    ///     向Excel模板中插入数据的接口
+    /// </summary>
+    public interface IExcelEditor
+    {
+        /// <summary>
+        ///     警告信息
+        /// </summary>
+        List<string> WarningMessage { get; }
+
+        /// <summary>
+        ///     设置单元格的值
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        void Set(string name, string value);
+
+        /// <summary>
+        ///     设置单元格的值
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <param name="format"></param>
+        void Set(string name, double value, string format = null);
+
+        /// <summary>
+        ///     设置单元格的值
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        void Set(string name, bool value);
+
+        /// <summary>
+        ///     设置单元格的值
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <param name="format"></param>
+        void Set(string name, DateTime value, string format = null);
+
+        /// <summary>
+        ///     设置单元格的值
+        ///     在外部缓存T的Type会提高性能
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="values"></param>
+        /// <param name="willCopyRow"></param>
+        /// <param name="type"></param>
+        void Set<T>(string name, IList<T> values, bool willCopyRow = true, Type type = null);
+
+        /// <summary>
+        ///     远程下载Excel文件，MVC中return new EmptyResult();
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="fileName"></param>
+        void Save(HttpResponse response, string fileName);
+
+        /// <summary>
+        ///     本地保存Excel文件
+        /// </summary>
+        /// <param name="file"></param>
+        void Save(string file);
+
+#if !NET20 &&!NET30 &&!NET35
+        /// <summary>
+        ///     远程下载Excel文件，MVC中return new EmptyResult();
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="fileName"></param>
+        void Save(HttpResponseBase response, string fileName);
+#endif
+    }
+
+    /// <summary>
     ///     向Excel模板中插入数据的类
     /// </summary>
-    public class ExcelEditor
+    public class ExcelEditor : IExcelEditor
     {
         /// <summary>
         ///     当前工作簿
