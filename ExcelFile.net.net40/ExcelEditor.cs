@@ -187,6 +187,68 @@ namespace ExcelFile.net
             }
         }
 
+        private static void Set<T>(ICell cell, string name, T value, string cellValue, Type type = null, string format = null)
+        {
+            if (value == null)
+            {
+                cell.SetCellType(CellType.Blank);
+                return;
+            }
+            if (type == null)
+            {
+                type = value.GetType();
+            }
+            if (type == typeof (string))
+            {
+                cell.SetCellValue(cellValue.Replace(name, value as string));
+            }
+            else if (type == typeof (DateTime))
+            {
+                if (cellValue == name)
+                {
+                    cell.SetCellValue(Convert.ToDateTime(value));
+                }
+                else
+                {
+                    cell.SetCellValue(format == null ? cellValue.Replace(name, value.ToString()) : cellValue.Replace(name, Convert.ToDateTime(value).ToString(format)));
+                }
+            }
+            else if (type == typeof (bool))
+            {
+                if (cellValue == name)
+                {
+                    cell.SetCellValue(Convert.ToBoolean(value));
+                }
+                else
+                {
+                    cell.SetCellValue(cellValue.Replace(name, value.ToString()));
+                }
+            }
+            else if (type == typeof (double)
+                     || type == typeof (float)
+                     || type == typeof (int)
+                     || type == typeof (uint)
+                     || type == typeof (Int16)
+                     || type == typeof (Int64)
+                     || type == typeof (UInt16)
+                     || type == typeof (UInt64)
+                     || type == typeof (decimal))
+            {
+                if (cellValue == name)
+                {
+                    cell.SetCellValue(Convert.ToDouble(value));
+                }
+                else
+                {
+                    cell.SetCellValue(format == null ? cellValue.Replace(name, value.ToString()) : cellValue.Replace(name, Convert.ToDouble(value).ToString(format)));
+                }
+            }
+            else
+            {
+                throw new Exception("cannot support type:" + type.FullName);
+            }
+        }
+
         private static void Set<T>(ICell cell, string name, T value, Type type = null, string format = null)
         {
             if (value == null)
@@ -285,13 +347,13 @@ namespace ExcelFile.net
             {
                 var placeHolderName = GetPlaceHolderName(Combine(name, propertyInfo.Name));
                 var cell = Find(row, placeHolderName);
-                cache.Add(propertyInfo.Name, new MemberInfo(placeHolderName, cell.ColumnIndex, propertyInfo.PropertyType));
+                cache.Add(propertyInfo.Name, new MemberInfo(placeHolderName, cell.ColumnIndex, propertyInfo.PropertyType, cell.StringCellValue));
             }
             foreach (var fieldInfo in fields)
             {
                 var placeHolderName = GetPlaceHolderName(Combine(name, fieldInfo.Name));
                 var cell = Find(row, placeHolderName);
-                cache.Add(fieldInfo.Name, new MemberInfo(placeHolderName, cell.ColumnIndex, fieldInfo.FieldType));
+                cache.Add(fieldInfo.Name, new MemberInfo(placeHolderName, cell.ColumnIndex, fieldInfo.FieldType, cell.StringCellValue));
             }
 
             if (values.Count == 0)
@@ -324,38 +386,36 @@ namespace ExcelFile.net
                 foreach (var propertyInfo in properties)
                 {
                     var result = type.InvokeMember(propertyInfo.Name, BindingFlags.GetProperty, null, value, null);
-                    var tuple = cache[propertyInfo.Name];
-                    var placeHolderName = tuple.PlaceHolderName;
-                    var cell = row.GetCell(tuple.ColumnIndex);
+                    var memberInfo = cache[propertyInfo.Name];
+                    var placeHolderName = memberInfo.PlaceHolderName;
+                    var cell = row.GetCell(memberInfo.ColumnIndex);
                     if (!willCopyRow
                         && i != values.Count - 1)
                     {
                         var nextCell = nextRow.GetCell(cell.ColumnIndex);
                         if (nextCell == null)
                         {
-                            nextCell = nextRow.CreateCell(cell.ColumnIndex);
+                            nextRow.CreateCell(cell.ColumnIndex);
                         }
-                        nextCell.SetCellValue(cell.StringCellValue);
                     }
-                    Set(cell, placeHolderName, result, tuple.Type);
+                    Set(cell, placeHolderName, result, memberInfo.Value, memberInfo.Type);
                 }
                 foreach (var fieldInfo in fields)
                 {
                     var result = type.InvokeMember(fieldInfo.Name, BindingFlags.GetField, null, value, null);
-                    var tuple = cache[fieldInfo.Name];
-                    var placeHolderName = tuple.PlaceHolderName;
-                    var cell = row.GetCell(tuple.ColumnIndex);
+                    var memberInfo = cache[fieldInfo.Name];
+                    var placeHolderName = memberInfo.PlaceHolderName;
+                    var cell = row.GetCell(memberInfo.ColumnIndex);
                     if (!willCopyRow
                         && i != values.Count - 1)
                     {
                         var nextCell = nextRow.GetCell(cell.ColumnIndex);
                         if (nextCell == null)
                         {
-                            nextCell = nextRow.CreateCell(cell.ColumnIndex);
+                            nextRow.CreateCell(cell.ColumnIndex);
                         }
-                        nextCell.SetCellValue(cell.StringCellValue);
                     }
-                    Set(cell, placeHolderName, result, tuple.Type);
+                    Set(cell, placeHolderName, result, memberInfo.Value, memberInfo.Type);
                 }
                 row = nextRow;
             }
@@ -532,17 +592,19 @@ namespace ExcelFile.net
 #endif
     }
 
-    public class MemberInfo
+    internal class MemberInfo
     {
-        public MemberInfo(string placeHolderName, int columnIndex, Type type)
+        public MemberInfo(string placeHolderName, int columnIndex, Type type, string value)
         {
             PlaceHolderName = placeHolderName;
             ColumnIndex = columnIndex;
             Type = type;
+            Value = value;
         }
 
         public string PlaceHolderName { get; set; }
         public int ColumnIndex { get; set; }
         public Type Type { get; set; }
+        public string Value { get; set; }
     }
 }
