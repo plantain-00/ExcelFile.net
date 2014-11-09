@@ -5,7 +5,7 @@ ExcelFile.net
 + a Excel template editor.
 + a enumerator of worksheets, rows and cells.
 
-        var excel = new ExcelFile();
+        IExcelFile excel = new ExcelFile();
         excel.Sheet("test sheet");
         excel.Row().Cell("test1").Cell(2);
         excel.Row().Cell("test2").Cell(3);
@@ -13,7 +13,7 @@ ExcelFile.net
 
 ![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/a.JPG)
 
-	var excel2 = new ExcelFile();
+	IExcelFile excel2 = new ExcelFile();
     excel2.Sheet("test2 sheet");
     excel2.Row(25, excel2.NewStyle().Background(HSSFColor.Yellow.Index)).Empty(2).Cell("test1");
     excel2.Row(15).Empty().Cell(1).Cell(2, excel2.NewStyle().Color(HSSFColor.Red.Index));
@@ -21,7 +21,7 @@ ExcelFile.net
 
 ![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/b.JPG)
 
-	var excel = new ExcelEditor("c.xls");
+	IExcelFile excel = new ExcelEditor("c.xls");
 	excel.Set("测试", "sss");
 	excel.Set("测试2", 123.456);
 	excel.Set("测试3", false);

@@ -279,6 +279,21 @@ namespace ExcelFile.net
             {
                 return;
             }
+
+            var cache = new Dictionary<string, MemberInfo>();
+            foreach (var propertyInfo in properties)
+            {
+                var placeHolderName = GetPlaceHolderName(Combine(name, propertyInfo.Name));
+                var cell = Find(row, placeHolderName);
+                cache.Add(propertyInfo.Name, new MemberInfo(placeHolderName, cell.ColumnIndex, propertyInfo.PropertyType));
+            }
+            foreach (var fieldInfo in fields)
+            {
+                var placeHolderName = GetPlaceHolderName(Combine(name, fieldInfo.Name));
+                var cell = Find(row, placeHolderName);
+                cache.Add(fieldInfo.Name, new MemberInfo(placeHolderName, cell.ColumnIndex, fieldInfo.FieldType));
+            }
+
             if (values.Count == 0)
             {
                 if (willCopyRow)
@@ -309,8 +324,9 @@ namespace ExcelFile.net
                 foreach (var propertyInfo in properties)
                 {
                     var result = type.InvokeMember(propertyInfo.Name, BindingFlags.GetProperty, null, value, null);
-                    var placeHolderName = GetPlaceHolderName(Combine(name, propertyInfo.Name));
-                    var cell = Find(row, placeHolderName);
+                    var tuple = cache[propertyInfo.Name];
+                    var placeHolderName = tuple.PlaceHolderName;
+                    var cell = row.GetCell(tuple.ColumnIndex);
                     if (!willCopyRow
                         && i != values.Count - 1)
                     {
@@ -321,13 +337,14 @@ namespace ExcelFile.net
                         }
                         nextCell.SetCellValue(cell.StringCellValue);
                     }
-                    Set(cell, placeHolderName, result);
+                    Set(cell, placeHolderName, result, tuple.Type);
                 }
                 foreach (var fieldInfo in fields)
                 {
                     var result = type.InvokeMember(fieldInfo.Name, BindingFlags.GetField, null, value, null);
-                    var placeHolderName = GetPlaceHolderName(Combine(name, fieldInfo.Name));
-                    var cell = Find(row, placeHolderName);
+                    var tuple = cache[fieldInfo.Name];
+                    var placeHolderName = tuple.PlaceHolderName;
+                    var cell = row.GetCell(tuple.ColumnIndex);
                     if (!willCopyRow
                         && i != values.Count - 1)
                     {
@@ -338,7 +355,7 @@ namespace ExcelFile.net
                         }
                         nextCell.SetCellValue(cell.StringCellValue);
                     }
-                    Set(cell, placeHolderName, result);
+                    Set(cell, placeHolderName, result, tuple.Type);
                 }
                 row = nextRow;
             }
@@ -513,5 +530,19 @@ namespace ExcelFile.net
             ExcelUtils.Save(Workbook, response, fileName);
         }
 #endif
+    }
+
+    public class MemberInfo
+    {
+        public MemberInfo(string placeHolderName, int columnIndex, Type type)
+        {
+            PlaceHolderName = placeHolderName;
+            ColumnIndex = columnIndex;
+            Type = type;
+        }
+
+        public string PlaceHolderName { get; set; }
+        public int ColumnIndex { get; set; }
+        public Type Type { get; set; }
     }
 }
