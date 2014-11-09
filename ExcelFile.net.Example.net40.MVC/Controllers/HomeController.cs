@@ -14,9 +14,9 @@ namespace ExcelFile.net.Example.net40.MVC.Controllers
 
         public ActionResult Export()
         {
-            IExcelFile excel = new ExcelFile();
+            IExcelFile excel = new ExcelFile(true);
             excel.Sheet("test").Row().Cell("111");
-            excel.Save(Response, "测试.xls");
+            excel.Save(Response, "测试.xlsx");
             return new EmptyResult();
         }
     }
