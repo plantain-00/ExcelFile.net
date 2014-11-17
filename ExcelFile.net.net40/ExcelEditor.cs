@@ -187,7 +187,7 @@ namespace ExcelFile.net
             }
         }
 
-        private static void Set<T>(ICell cell, string name, T value, string cellValue, Type type = null, string format = null)
+        private void Set<T>(ICell cell, string name, T value, string cellValue, Type type = null, string format = null)
         {
             if (value == null)
             {
@@ -245,69 +245,7 @@ namespace ExcelFile.net
             }
             else
             {
-                throw new Exception("cannot support type:" + type.FullName);
-            }
-        }
-
-        private static void Set<T>(ICell cell, string name, T value, Type type = null, string format = null)
-        {
-            if (value == null)
-            {
-                cell.SetCellType(CellType.Blank);
-                return;
-            }
-            if (type == null)
-            {
-                type = value.GetType();
-            }
-            if (type == typeof (string))
-            {
-                cell.SetCellValue(cell.StringCellValue.Replace(name, value as string));
-            }
-            else if (type == typeof (DateTime))
-            {
-                if (cell.StringCellValue == name)
-                {
-                    cell.SetCellValue(Convert.ToDateTime(value));
-                }
-                else
-                {
-                    cell.SetCellValue(format == null ? cell.StringCellValue.Replace(name, value.ToString()) : cell.StringCellValue.Replace(name, Convert.ToDateTime(value).ToString(format)));
-                }
-            }
-            else if (type == typeof (bool))
-            {
-                if (cell.StringCellValue == name)
-                {
-                    cell.SetCellValue(Convert.ToBoolean(value));
-                }
-                else
-                {
-                    cell.SetCellValue(cell.StringCellValue.Replace(name, value.ToString()));
-                }
-            }
-            else if (type == typeof (double)
-                     || type == typeof (float)
-                     || type == typeof (int)
-                     || type == typeof (uint)
-                     || type == typeof (Int16)
-                     || type == typeof (Int64)
-                     || type == typeof (UInt16)
-                     || type == typeof (UInt64)
-                     || type == typeof (decimal))
-            {
-                if (cell.StringCellValue == name)
-                {
-                    cell.SetCellValue(Convert.ToDouble(value));
-                }
-                else
-                {
-                    cell.SetCellValue(format == null ? cell.StringCellValue.Replace(name, value.ToString()) : cell.StringCellValue.Replace(name, Convert.ToDouble(value).ToString(format)));
-                }
-            }
-            else
-            {
-                throw new Exception("cannot support type:" + type.FullName);
+                WarningMessage.Add("cannot support type:" + type.FullName);
             }
         }
 
@@ -347,13 +285,27 @@ namespace ExcelFile.net
             {
                 var placeHolderName = GetPlaceHolderName(Combine(name, propertyInfo.Name));
                 var cell = Find(row, placeHolderName);
-                cache.Add(propertyInfo.Name, new MemberInfo(placeHolderName, cell.ColumnIndex, propertyInfo.PropertyType, cell.StringCellValue));
+                if (cell != null)
+                {
+                    cache.Add(propertyInfo.Name, new MemberInfo(placeHolderName, cell.ColumnIndex, propertyInfo.PropertyType, cell.StringCellValue));
+                }
+                else
+                {
+                    cache.Add(propertyInfo.Name, null);
+                }
             }
             foreach (var fieldInfo in fields)
             {
                 var placeHolderName = GetPlaceHolderName(Combine(name, fieldInfo.Name));
                 var cell = Find(row, placeHolderName);
-                cache.Add(fieldInfo.Name, new MemberInfo(placeHolderName, cell.ColumnIndex, fieldInfo.FieldType, cell.StringCellValue));
+                if (cell != null)
+                {
+                    cache.Add(fieldInfo.Name, new MemberInfo(placeHolderName, cell.ColumnIndex, fieldInfo.FieldType, cell.StringCellValue));
+                }
+                else
+                {
+                    cache.Add(fieldInfo.Name, null);
+                }
             }
 
             if (values.Count == 0)
@@ -387,6 +339,10 @@ namespace ExcelFile.net
                 {
                     var result = type.InvokeMember(propertyInfo.Name, BindingFlags.GetProperty, null, value, null);
                     var memberInfo = cache[propertyInfo.Name];
+                    if (memberInfo == null)
+                    {
+                        break;
+                    }
                     var placeHolderName = memberInfo.PlaceHolderName;
                     var cell = row.GetCell(memberInfo.ColumnIndex);
                     if (!willCopyRow
@@ -404,6 +360,10 @@ namespace ExcelFile.net
                 {
                     var result = type.InvokeMember(fieldInfo.Name, BindingFlags.GetField, null, value, null);
                     var memberInfo = cache[fieldInfo.Name];
+                    if (memberInfo == null)
+                    {
+                        break;
+                    }
                     var placeHolderName = memberInfo.PlaceHolderName;
                     var cell = row.GetCell(memberInfo.ColumnIndex);
                     if (!willCopyRow
@@ -504,7 +464,7 @@ namespace ExcelFile.net
             }
         }
 
-        private static ICell Find(IRow row, string name)
+        private ICell Find(IRow row, string name)
         {
             for (var k = 0; k < row.PhysicalNumberOfCells; k++)
             {
@@ -515,7 +475,8 @@ namespace ExcelFile.net
                     return cell;
                 }
             }
-            throw new Exception(name + " not found in row:" + row.RowNum);
+            WarningMessage.Add(name + " not found in row:" + row.RowNum);
+            return null;
         }
 
         /// <summary>
