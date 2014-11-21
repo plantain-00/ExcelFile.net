@@ -64,6 +64,7 @@
     <None Include="A.xlsx" />
     <None Include="B.xlsx" />
     <None Include="C.xlsx" />
+    <None Include="F.xlsx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
