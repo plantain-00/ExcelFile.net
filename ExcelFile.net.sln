@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelFile.net.net30", "Exce
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelFile.net.net35", "ExcelFile.net.net35\ExcelFile.net.net35.csproj", "{F8F3C18F-1279-491F-BD3F-C416FC1318C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelFile.net.Example.net40.MVC", "ExcelFile.net.Example.net40.MVC\ExcelFile.net.Example.net40.MVC.csproj", "{AFAB1C4C-D129-4E12-A348-E72FFA83602F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,10 +51,6 @@ Global
 		{F8F3C18F-1279-491F-BD3F-C416FC1318C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8F3C18F-1279-491F-BD3F-C416FC1318C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8F3C18F-1279-491F-BD3F-C416FC1318C1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AFAB1C4C-D129-4E12-A348-E72FFA83602F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AFAB1C4C-D129-4E12-A348-E72FFA83602F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AFAB1C4C-D129-4E12-A348-E72FFA83602F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AFAB1C4C-D129-4E12-A348-E72FFA83602F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
