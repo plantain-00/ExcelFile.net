@@ -5,6 +5,10 @@ ExcelFile.net
 + a Fluent Excel File Writer based on NPOI.
 + a enumerator of worksheets, rows and cells.
 
+
+## Example A
+
+
             //Example A from A.xlsx
             IExcelEditor excelA = new ExcelEditor("../../A.xlsx");
             excelA.Set("name", "Sara");
@@ -14,6 +18,10 @@ ExcelFile.net
 ![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/A.PNG)
 
 ![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/A_result.PNG)
+
+
+## Example B
+
 
             //Example B from B.xlsx
             IExcelEditor excelB = new ExcelEditor("../../B.xlsx");
@@ -36,6 +44,7 @@ ExcelFile.net
 ![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/B.PNG)
 
 ![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/B_result.PNG)
+
 
 ## nuget
 You can get [it](https://www.nuget.org/packages/ExcelFile.net) from Nuget.
