@@ -21,7 +21,8 @@ namespace ExcelFile.net.Enumerable
         }
         public IEnumerator<IRow> GetEnumerator()
         {
-            if (_sheet.PhysicalNumberOfRows == 0)
+            if (_sheet == null
+                || _sheet.PhysicalNumberOfRows == 0)
             {
                 yield break;
             }

@@ -161,6 +161,20 @@ namespace ExcelFile.net
                 throw new ExcelDataException("Error when get a date from a Excel's cell.", exception, cell.RowIndex, cell.ColumnIndex);
             }
         }
+
+        /// <summary>
+        ///     获得Workbook的FormulaEvaluator
+        /// </summary>
+        /// <param name="workbook"></param>
+        /// <returns></returns>
+        public static IFormulaEvaluator GetFormulaEvaluator(this IWorkbook workbook)
+        {
+            if (workbook is HSSFWorkbook)
+            {
+                return new HSSFFormulaEvaluator(workbook);
+            }
+            return new XSSFFormulaEvaluator(workbook);
+        }
 #endif
     }
 }

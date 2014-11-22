@@ -4,6 +4,10 @@ using System.IO;
 using System.Reflection;
 using System.Web;
 
+#if !NET20 &&!NET30 &&!NET35
+using ExcelFile.net.Enumerable;
+#endif
+
 using NPOI.SS.UserModel;
 
 namespace ExcelFile.net
@@ -78,6 +82,11 @@ namespace ExcelFile.net
         /// <param name="response"></param>
         /// <param name="fileName"></param>
         void Save(HttpResponseBase response, string fileName);
+
+        /// <summary>
+        ///     更新Formula
+        /// </summary>
+        void UpdateFormula();
 #endif
     }
 
@@ -549,6 +558,29 @@ namespace ExcelFile.net
         public void Save(HttpResponseBase response, string fileName)
         {
             ExcelUtils.Save(Workbook, response, fileName);
+        }
+
+        /// <summary>
+        ///     更新Formula
+        /// </summary>
+        public void UpdateFormula()
+        {
+            var formulaEvaluator = Workbook.GetFormulaEvaluator();
+            foreach (var sheet in Workbook.AsEnumerable())
+            {
+                sheet.ForceFormulaRecalculation = true;
+                foreach (var row in sheet.AsEnumerable())
+                {
+                    foreach (var cell in row.AsEnumerable())
+                    {
+                        if (cell != null
+                            && cell.CellType == CellType.Formula)
+                        {
+                            formulaEvaluator.EvaluateFormulaCell(cell);
+                        }
+                    }
+                }
+            }
         }
 #endif
     }

@@ -53,6 +53,7 @@ namespace ExcelFile.net.Example.net40
                            }
                        },
                        false);
+            excelC.UpdateFormula();
             excelC.Save("../../C_result.xlsx");
 
             //Example D
