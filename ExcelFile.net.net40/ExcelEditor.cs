@@ -18,6 +18,21 @@ namespace ExcelFile.net
     public interface IExcelEditor
     {
         /// <summary>
+        ///     开始标记
+        /// </summary>
+        string StartMark { get; set; }
+
+        /// <summary>
+        ///     结束标记
+        /// </summary>
+        string EndMark { get; set; }
+
+        /// <summary>
+        ///     分隔符
+        /// </summary>
+        string Separator { get; set; }
+
+        /// <summary>
         ///     警告信息
         /// </summary>
         List<string> WarningMessage { get; }
@@ -110,7 +125,14 @@ namespace ExcelFile.net
         {
             Workbook = ExcelUtils.New(file, FileMode.Open, FileAccess.Read, is2007OrLater, willJudgeByExtensionName);
             WarningMessage = new List<string>();
+            StartMark = "{";
+            EndMark = "}";
+            Separator = "-";
         }
+
+        public string StartMark { get; set; }
+        public string EndMark { get; set; }
+        public string Separator { get; set; }
 
         /// <summary>
         ///     警告信息
@@ -495,12 +517,12 @@ namespace ExcelFile.net
         /// <returns></returns>
         private string GetPlaceHolderName(string name)
         {
-            if (name.Contains("{")
-                || name.Contains("}"))
+            if (name.Contains(StartMark)
+                || name.Contains(EndMark))
             {
                 WarningMessage.Add(string.Format("变量名\"{0}\"不应该包含大括号", name));
             }
-            return string.Format("{{{0}}}", name);
+            return string.Format("{1}{0}{2}", name, StartMark, EndMark);
         }
 
         /// <summary>
@@ -509,9 +531,9 @@ namespace ExcelFile.net
         /// <param name="name"></param>
         /// <param name="memberName"></param>
         /// <returns></returns>
-        private static string Combine(string name, string memberName)
+        private string Combine(string name, string memberName)
         {
-            return name + "-" + memberName;
+            return name + Separator + memberName;
         }
 
         /// <summary>
@@ -521,13 +543,13 @@ namespace ExcelFile.net
         /// <returns></returns>
         private string GetStartOfPlaceHolderName(string name)
         {
-            if (name.Contains("{")
-                || name.Contains("}")
-                || name.Contains("-"))
+            if (name.Contains(StartMark)
+                || name.Contains(EndMark)
+                || name.Contains(Separator))
             {
                 WarningMessage.Add(string.Format("变量名\"{0}\"不应该包含大括号或'-'", name));
             }
-            return string.Format("{{{0}-", name);
+            return string.Format("{1}{0}{2}", name, StartMark, Separator);
         }
 
         /// <summary>
