@@ -26,12 +26,17 @@ namespace ExcelFile.net.Example.net40
                            new
                            {
                                Name = "Tommy",
-                               Age = 12
+                               Age = 12 as int?
                            },
                            new
                            {
                                Name = "Philips",
-                               Age = 13
+                               Age = 13 as int?
+                           },
+                           new
+                           {
+                               Name = "Sara",
+                               Age = null as int?
                            }
                        });
             excelB.Save("../../B_result.xlsx");
@@ -85,20 +90,23 @@ namespace ExcelFile.net.Example.net40
                         {
                             Console.WriteLine("null");
                         }
-                        else switch (cell.CellType)
+                        else
                         {
-                            case CellType.Blank:
-                                Console.WriteLine("blank");
-                                break;
-                            case CellType.Boolean:
-                                Console.WriteLine(cell.BooleanCellValue);
-                                break;
-                            case CellType.Numeric:
-                                Console.WriteLine(cell.NumericCellValue);
-                                break;
-                            case CellType.String:
-                                Console.WriteLine(cell.StringCellValue);
-                                break;
+                            switch (cell.CellType)
+                            {
+                                case CellType.Blank:
+                                    Console.WriteLine("blank");
+                                    break;
+                                case CellType.Boolean:
+                                    Console.WriteLine(cell.BooleanCellValue);
+                                    break;
+                                case CellType.Numeric:
+                                    Console.WriteLine(cell.NumericCellValue);
+                                    break;
+                                case CellType.String:
+                                    Console.WriteLine(cell.StringCellValue);
+                                    break;
+                            }
                         }
                     }
                 }

@@ -31,12 +31,17 @@ ExcelFile.net
                            new
                            {
                                Name = "Tommy",
-                               Age = 12
+                               Age = 12 as int?
                            },
                            new
                            {
                                Name = "Philips",
-                               Age = 13
+                               Age = 13 as int?
+                           },
+                           new
+                           {
+                               Name = "Sara",
+                               Age = null as int?
                            }
                        });
             excelB.Save("../../B_result.xlsx");

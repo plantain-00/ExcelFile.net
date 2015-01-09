@@ -4,11 +4,11 @@ using System.IO;
 using System.Reflection;
 using System.Web;
 
+using NPOI.SS.UserModel;
 #if !NET20 &&!NET30 &&!NET35
 using ExcelFile.net.Enumerable;
-#endif
 
-using NPOI.SS.UserModel;
+#endif
 
 namespace ExcelFile.net
 {
@@ -127,7 +127,7 @@ namespace ExcelFile.net
             WarningMessage = new List<string>();
             StartMark = "{";
             EndMark = "}";
-            Separator = "-";
+            Separator = ".";
         }
 
         public string StartMark { get; set; }
@@ -138,6 +138,18 @@ namespace ExcelFile.net
         ///     警告信息
         /// </summary>
         public List<string> WarningMessage { get; private set; }
+
+        private void AddWarningMessage(string message)
+        {
+            foreach (var warningMessage in WarningMessage)
+            {
+                if (warningMessage == message)
+                {
+                    return;
+                }
+            }
+            WarningMessage.Add(message);
+        }
 
         /// <summary>
         ///     设置单元格的值
@@ -244,6 +256,18 @@ namespace ExcelFile.net
                     cell.SetCellValue(format == null ? cellValue.Replace(name, value.ToString()) : cellValue.Replace(name, Convert.ToDateTime(value).ToString(format)));
                 }
             }
+            else if (value is DateTime?)
+            {
+                var dateTime = value as DateTime?;
+                if (cellValue == name)
+                {
+                    cell.SetCellValue(dateTime.Value);
+                }
+                else
+                {
+                    cell.SetCellValue(format == null ? cellValue.Replace(name, dateTime.Value.ToString()) : cellValue.Replace(name, dateTime.Value.ToString(format)));
+                }
+            }
             else if (type == typeof (bool))
             {
                 if (cellValue == name)
@@ -255,30 +279,93 @@ namespace ExcelFile.net
                     cell.SetCellValue(cellValue.Replace(name, value.ToString()));
                 }
             }
+            else if (value is bool?)
+            {
+                var boolean = value as bool?;
+                if (cellValue == name)
+                {
+                    cell.SetCellValue(boolean.Value);
+                }
+                else
+                {
+                    cell.SetCellValue(cellValue.Replace(name, boolean.Value.ToString()));
+                }
+            }
             else if (type == typeof (double)
                      || type == typeof (float)
                      || type == typeof (int)
                      || type == typeof (uint)
-                     || type == typeof (Int16)
-                     || type == typeof (Int64)
-                     || type == typeof (UInt16)
-                     || type == typeof (UInt64)
+                     || type == typeof (short)
+                     || type == typeof (long)
+                     || type == typeof (ushort)
+                     || type == typeof (ulong)
                      || type == typeof (decimal))
             {
-                if (cellValue == name)
-                {
-                    cell.SetCellValue(Convert.ToDouble(value));
-                }
-                else
-                {
-                    cell.SetCellValue(format == null ? cellValue.Replace(name, value.ToString()) : cellValue.Replace(name, Convert.ToDouble(value).ToString(format)));
-                }
+                SetDoubleValue(cell, name, cellValue, format, Convert.ToDouble(value));
+            }
+            else if (value is double?)
+            {
+                var d = value as double?;
+                SetDoubleValue(cell, name, cellValue, format, d.Value);
+            }
+            else if (value is float?)
+            {
+                var d = value as float?;
+                SetDoubleValue(cell, name, cellValue, format, d.Value);
+            }
+            else if (value is int?)
+            {
+                var d = value as int?;
+                SetDoubleValue(cell, name, cellValue, format, d.Value);
+            }
+            else if (value is uint?)
+            {
+                var d = value as uint?;
+                SetDoubleValue(cell, name, cellValue, format, d.Value);
+            }
+            else if (value is short?)
+            {
+                var d = value as short?;
+                SetDoubleValue(cell, name, cellValue, format, d.Value);
+            }
+            else if (value is long?)
+            {
+                var d = value as long?;
+                SetDoubleValue(cell, name, cellValue, format, d.Value);
+            }
+            else if (value is ushort?)
+            {
+                var d = value as ushort?;
+                SetDoubleValue(cell, name, cellValue, format, d.Value);
+            }
+            else if (value is ulong?)
+            {
+                var d = value as ulong?;
+                SetDoubleValue(cell, name, cellValue, format, d.Value);
+            }
+            else if (value is decimal?)
+            {
+                var d = value as decimal?;
+                SetDoubleValue(cell, name, cellValue, format, (double) d.Value);
             }
             else
             {
-                WarningMessage.Add("cannot support type:" + type.FullName);
+                AddWarningMessage("cannot support type:" + type.FullName);
             }
         }
+
+        private static void SetDoubleValue(ICell cell, string name, string cellValue, string format, double doubleValue)
+        {
+            if (cellValue == name)
+            {
+                cell.SetCellValue(doubleValue);
+            }
+            else
+            {
+                cell.SetCellValue(format == null ? cellValue.Replace(name, doubleValue.ToString()) : cellValue.Replace(name, doubleValue.ToString(format)));
+            }
+        }
+
 
         /// <summary>
         ///     设置单元格的值
@@ -442,7 +529,7 @@ namespace ExcelFile.net
             }
             if (result.Count == 0)
             {
-                WarningMessage.Add(string.Format("变量\"{0}\"未被使用，可以删除", name));
+                AddWarningMessage(string.Format("变量\"{0}\"未被使用，可以删除", name));
             }
             return result;
         }
@@ -474,7 +561,7 @@ namespace ExcelFile.net
                     }
                 }
             }
-            WarningMessage.Add(string.Format("变量\"{0}\"未被使用，可以删除", name));
+            AddWarningMessage(string.Format("变量\"{0}\"未被使用，可以删除", name));
             return null;
         }
 
@@ -506,7 +593,7 @@ namespace ExcelFile.net
                     return cell;
                 }
             }
-            WarningMessage.Add(name + " not found in row:" + row.RowNum);
+            AddWarningMessage(name + " not found in row:" + row.RowNum);
             return null;
         }
 
@@ -520,7 +607,7 @@ namespace ExcelFile.net
             if (name.Contains(StartMark)
                 || name.Contains(EndMark))
             {
-                WarningMessage.Add(string.Format("变量名\"{0}\"不应该包含大括号", name));
+                AddWarningMessage(string.Format("变量名\"{0}\"不应该包含大括号", name));
             }
             return string.Format("{1}{0}{2}", name, StartMark, EndMark);
         }
@@ -547,7 +634,7 @@ namespace ExcelFile.net
                 || name.Contains(EndMark)
                 || name.Contains(Separator))
             {
-                WarningMessage.Add(string.Format("变量名\"{0}\"不应该包含大括号或'-'", name));
+                AddWarningMessage(string.Format("变量名\"{0}\"不应该包含大括号或'-'", name));
             }
             return string.Format("{1}{0}{2}", name, StartMark, Separator);
         }
