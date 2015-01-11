@@ -8,6 +8,11 @@ ExcelFile.net
 
 ## Example A
 
+### A.xlsx
+
+![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/A.PNG)
+
+### Code
 
             //Example A from A.xlsx
             IExcelEditor excelA = new ExcelEditor("../../A.xlsx");
@@ -15,13 +20,17 @@ ExcelFile.net
             excelA.Set("age", 123);
             excelA.Save("../../A_result.xlsx");
 
-![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/A.PNG)
+### A_result.xlsx
 
 ![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/A_result.PNG)
 
-
 ## Example B
 
+### B.xlsx
+
+![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/B.PNG)
+
+### Code
 
             //Example B from B.xlsx
             IExcelEditor excelB = new ExcelEditor("../../B.xlsx");
@@ -46,13 +55,17 @@ ExcelFile.net
                        });
             excelB.Save("../../B_result.xlsx");
 
-![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/B.PNG)
+### B_result.xlsx
 
 ![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/B_result.PNG)
 
-
 ## Example C
 
+### C.xlsx
+
+![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/C.PNG)
+
+### Code
 
             //Example C from C.xlsx
             IExcelEditor excelC = new ExcelEditor("../../C.xlsx");
@@ -74,10 +87,9 @@ ExcelFile.net
             excelC.UpdateFormula();
             excelC.Save("../../C_result.xlsx");
 
-![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/C.PNG)
+### C_result.xlsx
 
 ![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/C_result.PNG)
-
 
 ## nuget
 You can get [it](https://www.nuget.org/packages/ExcelFile.net) from Nuget.
