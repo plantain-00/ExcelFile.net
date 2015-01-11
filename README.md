@@ -92,4 +92,4 @@ ExcelFile.net
 ![](https://raw.githubusercontent.com/plantain-00/ExcelFile.net/master/images/C_result.PNG)
 
 ## nuget
-You can get [it](https://www.nuget.org/packages/ExcelFile.net) from Nuget.
+You can get [it](https://www.nuget.org/packages/ExcelFile.net) from [Nuget](https://www.nuget.org/packages/ExcelFile.net).
