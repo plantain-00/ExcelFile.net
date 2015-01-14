@@ -53,6 +53,17 @@ namespace ExcelFile.net
         }
 
         /// <summary>
+        ///     从流中读取Excel工作簿
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="is2007OrLater"></param>
+        /// <returns></returns>
+        public static IWorkbook New(Stream stream, bool is2007OrLater = false)
+        {
+            return is2007OrLater ? new XSSFWorkbook(stream) as IWorkbook : new HSSFWorkbook(stream);
+        }
+
+        /// <summary>
         ///     远程下载Excel文件
         /// </summary>
         /// <param name="response"></param>
