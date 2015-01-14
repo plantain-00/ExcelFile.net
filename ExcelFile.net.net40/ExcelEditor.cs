@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+
 using System.Web;
 
 using NPOI.SS.UserModel;
 #if !NET20 &&!NET30 &&!NET35
 using ExcelFile.net.Enumerable;
-
+using System.Threading.Tasks;
 #endif
 
 namespace ExcelFile.net
@@ -102,6 +103,26 @@ namespace ExcelFile.net
         ///     更新Formula
         /// </summary>
         void UpdateFormula();
+
+        /// <summary>
+        ///     远程下载Excel文件，MVC中return new EmptyResult();
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="fileName"></param>
+        Task SaveAsync(HttpResponse response, string fileName);
+
+        /// <summary>
+        ///     本地保存Excel文件
+        /// </summary>
+        /// <param name="file"></param>
+        Task SaveAsync(string file);
+
+        /// <summary>
+        ///     远程下载Excel文件，MVC中return new EmptyResult();
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="fileName"></param>
+        Task SaveAsync(HttpResponseBase response, string fileName);
 #endif
     }
 
@@ -693,6 +714,21 @@ namespace ExcelFile.net
                     }
                 }
             }
+        }
+
+        public Task SaveAsync(HttpResponse response, string fileName)
+        {
+            return Task.Factory.StartNew(() => Save(response, fileName));
+        }
+
+        public Task SaveAsync(string file)
+        {
+            return Task.Factory.StartNew(() => Save(file));
+        }
+
+        public Task SaveAsync(HttpResponseBase response, string fileName)
+        {
+            return Task.Factory.StartNew(() => Save(response, fileName));
         }
 #endif
     }
