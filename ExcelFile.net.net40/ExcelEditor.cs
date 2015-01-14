@@ -430,7 +430,10 @@ namespace ExcelFile.net
             {
                 if (willCopyRow)
                 {
-                    row.Sheet.RemoveRow(row);
+                    for (var i = row.FirstCellNum; i < row.LastCellNum; i++)
+                    {
+                        row.RemoveCell(row.GetCell(i));
+                    }
                 }
                 else
                 {
