@@ -476,6 +476,7 @@ namespace ExcelFile.net
                 if (nextRow == null)
                 {
                     nextRow = row.Sheet.CreateRow(row.RowNum + 1);
+                    nextRow.RowStyle = row.RowStyle;
                 }
                 foreach (var propertyInfo in properties)
                 {
@@ -493,7 +494,8 @@ namespace ExcelFile.net
                         var nextCell = nextRow.GetCell(cell.ColumnIndex);
                         if (nextCell == null)
                         {
-                            nextRow.CreateCell(cell.ColumnIndex);
+                            var newCell = nextRow.CreateCell(cell.ColumnIndex);
+                            newCell.CellStyle = cell.CellStyle;
                         }
                     }
                     Set(cell, placeHolderName, result, memberInfo.Value, memberInfo.Type);
@@ -514,7 +516,8 @@ namespace ExcelFile.net
                         var nextCell = nextRow.GetCell(cell.ColumnIndex);
                         if (nextCell == null)
                         {
-                            nextRow.CreateCell(cell.ColumnIndex);
+                            var newCell = nextRow.CreateCell(cell.ColumnIndex);
+                            newCell.CellStyle = cell.CellStyle;
                         }
                     }
                     Set(cell, placeHolderName, result, memberInfo.Value, memberInfo.Type);
