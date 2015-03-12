@@ -371,7 +371,7 @@ namespace ExcelFile.net
             }
             else
             {
-                AddWarningMessage("cannot support type:" + type.FullName);
+                cell.SetCellValue(cellValue.Replace(name, value.ToString()));
             }
         }
 
