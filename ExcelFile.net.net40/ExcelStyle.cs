@@ -163,7 +163,7 @@ namespace ExcelFile.net
         /// <summary>
         ///     构造的Excel样式对象
         /// </summary>
-        public ICellStyle Style { get; private set; }
+        public ICellStyle Style { get; }
         /// <summary>
         ///     背景色
         /// </summary>

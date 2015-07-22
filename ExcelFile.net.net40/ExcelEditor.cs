@@ -400,7 +400,7 @@ namespace ExcelFile.net
         {
             if (values == null)
             {
-                throw new ArgumentNullException("values");
+                throw new ArgumentNullException(nameof(values));
             }
             if (type == null)
             {
@@ -556,7 +556,7 @@ namespace ExcelFile.net
             }
             if (result.Count == 0)
             {
-                AddWarningMessage(string.Format("变量\"{0}\"未被使用，可以删除", name));
+                AddWarningMessage($"变量\"{name}\"未被使用，可以删除");
             }
             return result;
         }
@@ -588,7 +588,7 @@ namespace ExcelFile.net
                     }
                 }
             }
-            AddWarningMessage(string.Format("变量\"{0}\"未被使用，可以删除", name));
+            AddWarningMessage($"变量\"{name}\"未被使用，可以删除");
             return null;
         }
 
@@ -634,7 +634,7 @@ namespace ExcelFile.net
             if (name.Contains(StartMark)
                 || name.Contains(EndMark))
             {
-                AddWarningMessage(string.Format("变量名\"{0}\"不应该包含大括号", name));
+                AddWarningMessage($"变量名\"{name}\"不应该包含大括号");
             }
             return string.Format("{1}{0}{2}", name, StartMark, EndMark);
         }
@@ -661,7 +661,7 @@ namespace ExcelFile.net
                 || name.Contains(EndMark)
                 || name.Contains(Separator))
             {
-                AddWarningMessage(string.Format("变量名\"{0}\"不应该包含大括号或'-'", name));
+                AddWarningMessage($"变量名\"{name}\"不应该包含大括号或'-'");
             }
             return string.Format("{1}{0}{2}", name, StartMark, Separator);
         }

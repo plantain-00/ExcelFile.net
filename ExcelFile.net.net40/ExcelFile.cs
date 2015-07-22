@@ -219,13 +219,7 @@ namespace ExcelFile.net
         /// <summary>
         ///     获得默认样式
         /// </summary>
-        public ExcelStyle Style
-        {
-            get
-            {
-                return new ExcelStyle(_cellStyle, Workbook.CreateFont());
-            }
-        }
+        public ExcelStyle Style => new ExcelStyle(_cellStyle, Workbook.CreateFont());
 
         /// <summary>
         ///     新建样式
@@ -289,9 +283,9 @@ namespace ExcelFile.net
         /// <returns></returns>
         public ExcelFile Row(ExcelStyle rowStyle = null)
         {
-            _row = _sheet.CreateRow(_row == null ? 0 : _row.RowNum + 1);
+            _row = _sheet.CreateRow(_row?.RowNum + 1 ?? 0);
             _cell = null;
-            _rowStyle = rowStyle == null ? null : rowStyle.Style;
+            _rowStyle = rowStyle?.Style;
             return this;
         }
 
@@ -330,7 +324,7 @@ namespace ExcelFile.net
         /// <returns></returns>
         public ExcelFile Cell(string value, ExcelStyle cellStyle = null)
         {
-            _cell = _row.CreateCell(_cell == null ? 0 : _cell.ColumnIndex + 1);
+            _cell = _row.CreateCell(_cell?.ColumnIndex + 1 ?? 0);
             _cell.SetCellValue(value);
             if (cellStyle != null)
             {
@@ -371,7 +365,7 @@ namespace ExcelFile.net
         /// <returns></returns>
         public ExcelFile Cell(double value, ExcelStyle cellStyle = null)
         {
-            _cell = _row.CreateCell(_cell == null ? 0 : _cell.ColumnIndex + 1);
+            _cell = _row.CreateCell(_cell?.ColumnIndex + 1 ?? 0);
             _cell.SetCellValue(value);
             if (cellStyle != null)
             {
@@ -412,7 +406,7 @@ namespace ExcelFile.net
         /// <returns></returns>
         public ExcelFile Cell(bool value, ExcelStyle cellStyle = null)
         {
-            _cell = _row.CreateCell(_cell == null ? 0 : _cell.ColumnIndex + 1);
+            _cell = _row.CreateCell(_cell?.ColumnIndex + 1 ?? 0);
             _cell.SetCellValue(value);
             if (cellStyle != null)
             {
@@ -453,7 +447,7 @@ namespace ExcelFile.net
         /// <returns></returns>
         public ExcelFile Cell(DateTime value, ExcelStyle cellStyle = null)
         {
-            _cell = _row.CreateCell(_cell == null ? 0 : _cell.ColumnIndex + 1);
+            _cell = _row.CreateCell(_cell?.ColumnIndex + 1 ?? 0);
             _cell.SetCellValue(value);
             if (cellStyle != null)
             {
