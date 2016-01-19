@@ -14,11 +14,13 @@ ExcelFile.net
 
 ### Code
 
-            //Example A from A.xlsx
-            IExcelEditor excelA = new ExcelEditor("../../A.xlsx");
-            excelA.Set("name", "Sara");
-            excelA.Set("age", 123);
-            excelA.Save("../../A_result.xlsx");
+```csharp
+//Example A from A.xlsx
+IExcelEditor excelA = new ExcelEditor("../../A.xlsx");
+excelA.Set("name", "Sara");
+excelA.Set("age", 123);
+excelA.Save("../../A_result.xlsx");
+```
 
 ### A_result.xlsx
 
@@ -32,28 +34,30 @@ ExcelFile.net
 
 ### Code
 
-            //Example B from B.xlsx
-            IExcelEditor excelB = new ExcelEditor("../../B.xlsx");
-            excelB.Set("s",
-                       new[]
-                       {
-                           new
-                           {
-                               Name = "Tommy",
-                               Age = 12 as int?
-                           },
-                           new
-                           {
-                               Name = "Philips",
-                               Age = 13 as int?
-                           },
-                           new
-                           {
-                               Name = "Sara",
-                               Age = null as int?
-                           }
-                       });
-            excelB.Save("../../B_result.xlsx");
+```csharp
+//Example B from B.xlsx
+IExcelEditor excelB = new ExcelEditor("../../B.xlsx");
+excelB.Set("s",
+           new[]
+           {
+               new
+               {
+                   Name = "Tommy",
+                   Age = 12 as int?
+               },
+               new
+               {
+                   Name = "Philips",
+                   Age = 13 as int?
+               },
+               new
+               {
+                   Name = "Sara",
+                   Age = null as int?
+               }
+           });
+excelB.Save("../../B_result.xlsx");
+```
 
 ### B_result.xlsx
 
@@ -67,25 +71,27 @@ ExcelFile.net
 
 ### Code
 
-            //Example C from C.xlsx
-            IExcelEditor excelC = new ExcelEditor("../../C.xlsx");
-            excelC.Set("s",
-                       new[]
-                       {
-                           new
-                           {
-                               Name = "Tommy",
-                               Age = 12
-                           },
-                           new
-                           {
-                               Name = "Philips",
-                               Age = 13
-                           }
-                       },
-                       false);
-            excelC.UpdateFormula();
-            excelC.Save("../../C_result.xlsx");
+```csharp
+//Example C from C.xlsx
+IExcelEditor excelC = new ExcelEditor("../../C.xlsx");
+excelC.Set("s",
+           new[]
+           {
+               new
+               {
+                   Name = "Tommy",
+                   Age = 12
+               },
+               new
+               {
+                   Name = "Philips",
+                   Age = 13
+               }
+           },
+           false);
+excelC.UpdateFormula();
+excelC.Save("../../C_result.xlsx");
+```
 
 ### C_result.xlsx
 
