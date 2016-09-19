@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 
 using NPOI.SS.UserModel;
@@ -6,19 +6,23 @@ using NPOI.SS.UserModel;
 namespace ExcelFile.net.Enumerable
 {
     /// <summary>
-    ///     某个工作簿的工作表的枚举器
+    ///     Enumerable sheets
     /// </summary>
     public class EnumerableSheet : IEnumerable<ISheet>
     {
         private readonly IWorkbook _workbook;
         /// <summary>
-        ///     构造某个工作簿的工作表的枚举器
+        ///     Construct an enumerable sheets from a workbook object
         /// </summary>
-        /// <param name="workbook"></param>
+        /// <param name="workbook">the workbook object</param>
         public EnumerableSheet(IWorkbook workbook)
         {
             _workbook = workbook;
         }
+        /// <summary>
+        ///     The implementment of IEnumerable
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<ISheet> GetEnumerator()
         {
             for (var i = 0; i < _workbook.NumberOfSheets; i++)

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 
 using NPOI.SS.UserModel;
@@ -6,19 +6,23 @@ using NPOI.SS.UserModel;
 namespace ExcelFile.net.Enumerable
 {
     /// <summary>
-    ///     某一行的单元格枚举器
+    ///     Enumerable cells
     /// </summary>
     public class EnumerableCell : IEnumerable<ICell>
     {
         private readonly IRow _row;
         /// <summary>
-        ///     构造某一行的单元格枚举器
+        ///     Construct an enumerable cells from a row object
         /// </summary>
-        /// <param name="row"></param>
+        /// <param name="row">the row object</param>
         public EnumerableCell(IRow row)
         {
             _row = row;
         }
+        /// <summary>
+        ///     The implementment of IEnumerable
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<ICell> GetEnumerator()
         {
             if (_row == null

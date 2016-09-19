@@ -1,17 +1,17 @@
-﻿using System;
+using System;
 
 namespace ExcelFile.net
 {
     /// <summary>
-    ///     Excel数据异常
+    ///     Excel data exception class
     /// </summary>
     public class ExcelDataException : Exception
     {
         /// <summary>
-        ///     构造ExcelDataException对象
+        ///     Cosntruct an ExcelDataException object
         /// </summary>
-        /// <param name="rowIndex"></param>
-        /// <param name="columnIndex"></param>
+        /// <param name="rowIndex">the row index of the errored cell</param>
+        /// <param name="columnIndex">the column index of the errored cell</param>
         public ExcelDataException(int rowIndex = 0, int columnIndex = 0)
         {
             RowIndex = rowIndex;
@@ -19,11 +19,11 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     构造ExcelDataException对象
+        ///     Cosntruct an ExcelDataException object
         /// </summary>
-        /// <param name="message"></param>
-        /// <param name="rowIndex"></param>
-        /// <param name="columnIndex"></param>
+        /// <param name="message">the error message</param>
+        /// <param name="rowIndex">the row index of the errored cell</param>
+        /// <param name="columnIndex">the column index of the errored cell</param>
         public ExcelDataException(string message, int rowIndex = 0, int columnIndex = 0) : base(message)
         {
             RowIndex = rowIndex;
@@ -31,12 +31,12 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     构造ExcelDataException对象
+        ///     Cosntruct an ExcelDataException object
         /// </summary>
-        /// <param name="message"></param>
-        /// <param name="innerException"></param>
-        /// <param name="rowIndex"></param>
-        /// <param name="columnIndex"></param>
+        /// <param name="message">the error message</param>
+        /// <param name="innerException">the inner exception</param>
+        /// <param name="rowIndex">the row index of the errored cell</param>
+        /// <param name="columnIndex">the column index of the errored cell</param>
         public ExcelDataException(string message, Exception innerException, int rowIndex = 0, int columnIndex = 0) : base(message, innerException)
         {
             RowIndex = rowIndex;
@@ -44,12 +44,12 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     行索引
+        ///     The Row index of the errored cell
         /// </summary>
         public int RowIndex { get; set; }
 
         /// <summary>
-        ///     列索引
+        ///     The column index of the errored cell
         /// </summary>
         public int ColumnIndex { get; set; }
     }

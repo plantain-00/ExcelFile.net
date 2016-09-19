@@ -1,37 +1,37 @@
-﻿using NPOI.SS.UserModel;
+using NPOI.SS.UserModel;
 
 namespace ExcelFile.net
 {
     /// <summary>
     ///     <para>
-    ///         背景色：Background
+    ///         Background: Background
     ///     </para>
     ///     <para>
-    ///         边框及边框颜色：Border、BorderTop、BorderBottom、BorderLeft、BorderRight
+    ///         Border and the color of border: Border, BorderTop, BorderBottom, BorderLeft, BorderRight
     ///     </para>
     ///     <para>
-    ///         对齐：Align、VerticalAlign
+    ///         Align: Align, VerticalAlign
     ///     </para>
     ///     <para>
-    ///         文字：WrapText、Italic、Underline、FontSize、Font、Color、Bold
+    ///         Word: WrapText, Italic, Underline, FontSize, Font, Color, Bold
     ///     </para>
     /// </summary>
     public interface IExcelStyle
     {
         /// <summary>
-        ///     构造的Excel样式对象
+        ///     Get style of cell
         /// </summary>
         ICellStyle Style { get; }
 
         /// <summary>
-        ///     背景色
+        ///     Background
         /// </summary>
         /// <param name="HSSFColor"></param>
         /// <returns></returns>
         ExcelStyle Background(short HSSFColor);
 
         /// <summary>
-        ///     上边框
+        ///     BorderTop
         /// </summary>
         /// <param name="borderStyle"></param>
         /// <param name="HSSFColor"></param>
@@ -39,7 +39,7 @@ namespace ExcelFile.net
         ExcelStyle BorderTop(BorderStyle borderStyle, short HSSFColor = -1);
 
         /// <summary>
-        ///     下边框
+        ///     BorderBottom
         /// </summary>
         /// <param name="borderStyle"></param>
         /// <param name="HSSFColor"></param>
@@ -47,7 +47,7 @@ namespace ExcelFile.net
         ExcelStyle BorderBottom(BorderStyle borderStyle, short HSSFColor = -1);
 
         /// <summary>
-        ///     左边框
+        ///     BorderLeft
         /// </summary>
         /// <param name="borderStyle"></param>
         /// <param name="HSSFColor"></param>
@@ -55,7 +55,7 @@ namespace ExcelFile.net
         ExcelStyle BorderLeft(BorderStyle borderStyle, short HSSFColor = -1);
 
         /// <summary>
-        ///     右边框
+        ///     BorderRight
         /// </summary>
         /// <param name="borderStyle"></param>
         /// <param name="HSSFColor"></param>
@@ -63,7 +63,7 @@ namespace ExcelFile.net
         ExcelStyle BorderRight(BorderStyle borderStyle, short HSSFColor = -1);
 
         /// <summary>
-        ///     边框
+        ///     Border
         /// </summary>
         /// <param name="borderStyle"></param>
         /// <param name="HSSFColor"></param>
@@ -71,62 +71,62 @@ namespace ExcelFile.net
         ExcelStyle Border(BorderStyle borderStyle, short HSSFColor = -1);
 
         /// <summary>
-        ///     水平对齐
+        ///     Align
         /// </summary>
         /// <param name="alignment"></param>
         /// <returns></returns>
         ExcelStyle Align(HorizontalAlignment alignment);
 
         /// <summary>
-        ///     垂直对齐
+        ///     VerticalAlign
         /// </summary>
         /// <param name="alignment"></param>
         /// <returns></returns>
         ExcelStyle VerticalAlign(VerticalAlignment alignment);
 
         /// <summary>
-        ///     文本自动换行
+        ///     WrapText
         /// </summary>
         /// <param name="wrapText"></param>
         /// <returns></returns>
         ExcelStyle WrapText(bool wrapText);
 
         /// <summary>
-        ///     前景色
+        ///     Color
         /// </summary>
         /// <param name="HSSFColor"></param>
         /// <returns></returns>
         ExcelStyle Color(short HSSFColor);
 
         /// <summary>
-        ///     斜体
+        ///     Italic
         /// </summary>
         /// <returns></returns>
         ExcelStyle Italic();
 
         /// <summary>
-        ///     下划线
+        ///     Underline
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
         ExcelStyle Underline(FontUnderlineType type);
 
         /// <summary>
-        ///     字体尺寸
+        ///     FontSize
         /// </summary>
         /// <param name="size"></param>
         /// <returns></returns>
         ExcelStyle FontSize(double size);
 
         /// <summary>
-        ///     字体
+        ///     Font
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
         ExcelStyle Font(string name);
 
         /// <summary>
-        ///     加粗
+        ///     Bold
         /// </summary>
         /// <returns></returns>
         ExcelStyle Bold();
@@ -134,23 +134,23 @@ namespace ExcelFile.net
 
     /// <summary>
     ///     <para>
-    ///         背景色：Background
+    ///         Background: Background
     ///     </para>
     ///     <para>
-    ///         边框及边框颜色：Border、BorderTop、BorderBottom、BorderLeft、BorderRight
+    ///         Border and the color of border: Border, BorderTop, BorderBottom, BorderLeft, BorderRight
     ///     </para>
     ///     <para>
-    ///         对齐：Align、VerticalAlign
+    ///         Align: Align, VerticalAlign
     ///     </para>
     ///     <para>
-    ///         文字：WrapText、Italic、Underline、FontSize、Font、Color、Bold
+    ///         Word: WrapText, Italic, Underline, FontSize, Font, Color, Bold
     ///     </para>
     /// </summary>
     public class ExcelStyle : IExcelStyle
     {
         private readonly IFont _font;
         /// <summary>
-        ///     构造Excel样式对象
+        ///     Construct an ExcelStyle object
         /// </summary>
         /// <param name="style"></param>
         /// <param name="font"></param>
@@ -161,11 +161,11 @@ namespace ExcelFile.net
             Style.SetFont(_font);
         }
         /// <summary>
-        ///     构造的Excel样式对象
+        ///     Construct an ExcelStyle object
         /// </summary>
         public ICellStyle Style { get; }
         /// <summary>
-        ///     背景色
+        ///     Background
         /// </summary>
         /// <param name="HSSFColor"></param>
         /// <returns></returns>
@@ -176,7 +176,7 @@ namespace ExcelFile.net
             return this;
         }
         /// <summary>
-        ///     上边框
+        ///     BorderTop
         /// </summary>
         /// <param name="borderStyle"></param>
         /// <param name="HSSFColor"></param>
@@ -191,7 +191,7 @@ namespace ExcelFile.net
             return this;
         }
         /// <summary>
-        ///     下边框
+        ///     BorderBottom
         /// </summary>
         /// <param name="borderStyle"></param>
         /// <param name="HSSFColor"></param>
@@ -206,7 +206,7 @@ namespace ExcelFile.net
             return this;
         }
         /// <summary>
-        ///     左边框
+        ///     BorderLeft
         /// </summary>
         /// <param name="borderStyle"></param>
         /// <param name="HSSFColor"></param>
@@ -221,7 +221,7 @@ namespace ExcelFile.net
             return this;
         }
         /// <summary>
-        ///     右边框
+        ///     BorderRight
         /// </summary>
         /// <param name="borderStyle"></param>
         /// <param name="HSSFColor"></param>
@@ -236,7 +236,7 @@ namespace ExcelFile.net
             return this;
         }
         /// <summary>
-        ///     边框
+        ///     Border
         /// </summary>
         /// <param name="borderStyle"></param>
         /// <param name="HSSFColor"></param>
@@ -257,7 +257,7 @@ namespace ExcelFile.net
             return this;
         }
         /// <summary>
-        ///     水平对齐
+        ///     Align
         /// </summary>
         /// <param name="alignment"></param>
         /// <returns></returns>
@@ -267,7 +267,7 @@ namespace ExcelFile.net
             return this;
         }
         /// <summary>
-        ///     垂直对齐
+        ///     VerticalAlign
         /// </summary>
         /// <param name="alignment"></param>
         /// <returns></returns>
@@ -277,7 +277,7 @@ namespace ExcelFile.net
             return this;
         }
         /// <summary>
-        ///     文本自动换行
+        ///     WrapText
         /// </summary>
         /// <param name="wrapText"></param>
         /// <returns></returns>
@@ -287,7 +287,7 @@ namespace ExcelFile.net
             return this;
         }
         /// <summary>
-        ///     前景色
+        ///     Color
         /// </summary>
         /// <param name="HSSFColor"></param>
         /// <returns></returns>
@@ -297,7 +297,7 @@ namespace ExcelFile.net
             return this;
         }
         /// <summary>
-        ///     斜体
+        ///     Italic
         /// </summary>
         /// <returns></returns>
         public ExcelStyle Italic()
@@ -306,7 +306,7 @@ namespace ExcelFile.net
             return this;
         }
         /// <summary>
-        ///     下划线
+        ///     Underline
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -316,7 +316,7 @@ namespace ExcelFile.net
             return this;
         }
         /// <summary>
-        ///     字体尺寸
+        ///     FontSize
         /// </summary>
         /// <param name="size"></param>
         /// <returns></returns>
@@ -326,7 +326,7 @@ namespace ExcelFile.net
             return this;
         }
         /// <summary>
-        ///     字体
+        ///     Font
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -336,7 +336,7 @@ namespace ExcelFile.net
             return this;
         }
         /// <summary>
-        ///     加粗
+        ///     Bold
         /// </summary>
         /// <returns></returns>
         public ExcelStyle Bold()

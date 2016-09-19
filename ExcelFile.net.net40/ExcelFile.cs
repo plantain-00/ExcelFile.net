@@ -8,43 +8,43 @@ namespace ExcelFile.net
 {
     /// <summary>
     ///     <para>
-    ///         内容：工作表Sheet()、行Row()、单元格Cell()、空的单元格Empty()、合并单元格Cell()
+    ///         Content: Sheet(), Row(), Cell(), Empty()
     ///     </para>
     ///     <para>
-    ///         单元格样式：默认样式Style、新样式NewStyle()、内联样式Cell()、行样式Row()
+    ///         Style of cell: Style, NewStyle(), Cell()、Row()
     ///     </para>
     ///     <para>
-    ///         列样式：列宽Sheet()
+    ///         Style of column: Sheet()
     ///     </para>
     ///     <para>
-    ///         行样式：默认行高DefaultRowHeight()、内联行高Row()
+    ///         Style of row: DefaultRowHeight(), Row()
     ///     </para>
     ///     <para>
-    ///         输出：本地文件Save()、远程下载Save()
+    ///         I/O: Save()
     ///     </para>
     /// </summary>
     public interface IExcelFile
     {
         /// <summary>
-        ///     获得默认样式
+        ///     Default style
         /// </summary>
         ExcelStyle Style { get; }
 
         /// <summary>
-        ///     新建样式
+        ///     New style
         /// </summary>
         /// <returns></returns>
         ExcelStyle NewStyle();
 
         /// <summary>
-        ///     新建工作表
+        ///     New worksheet
         /// </summary>
         /// <param name="columnWidths"></param>
         /// <returns></returns>
         ExcelFile Sheet(params int[] columnWidths);
 
         /// <summary>
-        ///     新建工作表
+        ///     New worksheet
         /// </summary>
         /// <param name="name"></param>
         /// <param name="widths"></param>
@@ -52,21 +52,21 @@ namespace ExcelFile.net
         ExcelFile Sheet(string name, params int[] widths);
 
         /// <summary>
-        ///     默认行高
+        ///     Default row height
         /// </summary>
         /// <param name="height"></param>
         /// <returns></returns>
         ExcelFile DefaultRowHeight(int height);
 
         /// <summary>
-        ///     新建行
+        ///     New row
         /// </summary>
         /// <param name="rowStyle"></param>
         /// <returns></returns>
         ExcelFile Row(ExcelStyle rowStyle = null);
 
         /// <summary>
-        ///     新建行
+        ///     New row
         /// </summary>
         /// <param name="height"></param>
         /// <param name="rowStyle"></param>
@@ -74,14 +74,14 @@ namespace ExcelFile.net
         ExcelFile Row(short height, ExcelStyle rowStyle = null);
 
         /// <summary>
-        ///     新建空单元格
+        ///     New empty cell
         /// </summary>
         /// <param name="colspan"></param>
         /// <returns></returns>
         ExcelFile Empty(int colspan = 1);
 
         /// <summary>
-        ///     新建单元格
+        ///     New cell
         /// </summary>
         /// <param name="value"></param>
         /// <param name="cellStyle"></param>
@@ -89,7 +89,7 @@ namespace ExcelFile.net
         ExcelFile Cell(string value, ExcelStyle cellStyle = null);
 
         /// <summary>
-        ///     新建单元格
+        ///     New cell
         /// </summary>
         /// <param name="value"></param>
         /// <param name="rowspan"></param>
@@ -99,7 +99,7 @@ namespace ExcelFile.net
         ExcelFile Cell(string value, int rowspan, int colspan, ExcelStyle cellStyle = null);
 
         /// <summary>
-        ///     新建单元格
+        ///     New cell
         /// </summary>
         /// <param name="value"></param>
         /// <param name="cellStyle"></param>
@@ -107,7 +107,7 @@ namespace ExcelFile.net
         ExcelFile Cell(double value, ExcelStyle cellStyle = null);
 
         /// <summary>
-        ///     新建单元格
+        ///     New cell
         /// </summary>
         /// <param name="value"></param>
         /// <param name="rowspan"></param>
@@ -117,7 +117,7 @@ namespace ExcelFile.net
         ExcelFile Cell(double value, int rowspan, int colspan, ExcelStyle cellStyle = null);
 
         /// <summary>
-        ///     新建单元格
+        ///     New cell
         /// </summary>
         /// <param name="value"></param>
         /// <param name="cellStyle"></param>
@@ -125,7 +125,7 @@ namespace ExcelFile.net
         ExcelFile Cell(bool value, ExcelStyle cellStyle = null);
 
         /// <summary>
-        ///     新建单元格
+        ///     New cell
         /// </summary>
         /// <param name="value"></param>
         /// <param name="rowspan"></param>
@@ -135,7 +135,7 @@ namespace ExcelFile.net
         ExcelFile Cell(bool value, int rowspan, int colspan, ExcelStyle cellStyle = null);
 
         /// <summary>
-        ///     新建单元格
+        ///     New cell
         /// </summary>
         /// <param name="value"></param>
         /// <param name="cellStyle"></param>
@@ -143,7 +143,7 @@ namespace ExcelFile.net
         ExcelFile Cell(DateTime value, ExcelStyle cellStyle = null);
 
         /// <summary>
-        ///     新建单元格
+        ///     New cell
         /// </summary>
         /// <param name="value"></param>
         /// <param name="rowspan"></param>
@@ -153,49 +153,49 @@ namespace ExcelFile.net
         ExcelFile Cell(DateTime value, int rowspan, int colspan, ExcelStyle cellStyle = null);
 
         /// <summary>
-        ///     远程下载Excel文件，MVC中return new EmptyResult();
+        ///     Download the Excel file, for asp.net MVC, can use `return new EmptyResult();` as the response.
         /// </summary>
-        /// <param name="response"></param>
-        /// <param name="fileName">带扩展名</param>
+        /// <param name="response">the HTTP response</param>
+        /// <param name="fileName">the file name</param>
         void Save(HttpResponse response, string fileName);
 
         /// <summary>
-        ///     本地保存Excel文件
+        ///     Save the file as a local file
         /// </summary>
-        /// <param name="file">带扩展名</param>
-        void Save(string file);
+        /// <param name="filePath">the target file path</param>
+        void Save(string filePath);
 
 #if !NET20 &&!NET30 &&!NET35
         /// <summary>
-        ///     远程下载Excel文件，MVC中return new EmptyResult();
+        ///     Download the Excel file, for asp.net MVC, can use `return new EmptyResult();` as the response.
         /// </summary>
-        /// <param name="response"></param>
-        /// <param name="fileName">带扩展名</param>
+        /// <param name="response">the HTTP response</param>
+        /// <param name="fileName">the file name</param>
         void Save(HttpResponseBase response, string fileName);
 #endif
     }
 
     /// <summary>
     ///     <para>
-    ///         内容：工作表Sheet()、行Row()、单元格Cell()、空的单元格Empty()、合并单元格Cell()
+    ///         Content: Sheet(), Row(), Cell(), Empty()
     ///     </para>
     ///     <para>
-    ///         单元格样式：默认样式Style、新样式NewStyle()、内联样式Cell()、行样式Row()
+    ///         Style of cell: Style, NewStyle(), Cell()、Row()
     ///     </para>
     ///     <para>
-    ///         列样式：列宽Sheet()
+    ///         Style of column: Sheet()
     ///     </para>
     ///     <para>
-    ///         行样式：默认行高DefaultRowHeight()、内联行高Row()
+    ///         Style of row: DefaultRowHeight(), Row()
     ///     </para>
     ///     <para>
-    ///         输出：本地文件Save()、远程下载Save()
+    ///         I/O: Save()
     ///     </para>
     /// </summary>
     public class ExcelFile : IExcelFile
     {
         /// <summary>
-        ///     当前工作簿
+        ///     Current workbook
         /// </summary>
         public readonly IWorkbook Workbook;
         private readonly ICellStyle _cellStyle;
@@ -205,7 +205,7 @@ namespace ExcelFile.net
         private ISheet _sheet;
 
         /// <summary>
-        ///     构造Excel文件对象
+        ///     Construct an new ExcelFile object
         /// </summary>
         /// <param name="is2007OrLater"></param>
         public ExcelFile(bool is2007OrLater = false)
@@ -217,12 +217,12 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     获得默认样式
+        ///     Default style
         /// </summary>
         public ExcelStyle Style => new ExcelStyle(_cellStyle, Workbook.CreateFont());
 
         /// <summary>
-        ///     新建样式
+        ///     New style
         /// </summary>
         /// <returns></returns>
         public ExcelStyle NewStyle()
@@ -231,7 +231,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     新建工作表
+        ///     New worksheet
         /// </summary>
         /// <param name="columnWidths"></param>
         /// <returns></returns>
@@ -248,7 +248,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     新建工作表
+        ///     New worksheet
         /// </summary>
         /// <param name="name"></param>
         /// <param name="widths"></param>
@@ -266,7 +266,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     默认行高
+        ///     Default row height
         /// </summary>
         /// <param name="height"></param>
         /// <returns></returns>
@@ -277,7 +277,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     新建行
+        ///     New row
         /// </summary>
         /// <param name="rowStyle"></param>
         /// <returns></returns>
@@ -290,7 +290,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     新建行
+        ///     New row
         /// </summary>
         /// <param name="height"></param>
         /// <param name="rowStyle"></param>
@@ -303,7 +303,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     新建空单元格
+        ///     New empty cell
         /// </summary>
         /// <param name="colspan"></param>
         /// <returns></returns>
@@ -317,7 +317,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     新建单元格
+        ///     New cell
         /// </summary>
         /// <param name="value"></param>
         /// <param name="cellStyle"></param>
@@ -342,7 +342,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     新建单元格
+        ///     New cell
         /// </summary>
         /// <param name="value"></param>
         /// <param name="rowspan"></param>
@@ -358,7 +358,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     新建单元格
+        ///     New cell
         /// </summary>
         /// <param name="value"></param>
         /// <param name="cellStyle"></param>
@@ -383,7 +383,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     新建单元格
+        ///     New cell
         /// </summary>
         /// <param name="value"></param>
         /// <param name="rowspan"></param>
@@ -399,7 +399,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     新建单元格
+        ///     New cell
         /// </summary>
         /// <param name="value"></param>
         /// <param name="cellStyle"></param>
@@ -424,7 +424,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     新建单元格
+        ///     New cell
         /// </summary>
         /// <param name="value"></param>
         /// <param name="rowspan"></param>
@@ -440,7 +440,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     新建单元格
+        ///     New cell
         /// </summary>
         /// <param name="value"></param>
         /// <param name="cellStyle"></param>
@@ -465,7 +465,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     新建单元格
+        ///     New cell
         /// </summary>
         /// <param name="value"></param>
         /// <param name="rowspan"></param>
@@ -486,30 +486,30 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     远程下载Excel文件，MVC中return new EmptyResult();
+        ///     Download the Excel file, for asp.net MVC, can use `return new EmptyResult();` as the response.
         /// </summary>
-        /// <param name="response"></param>
-        /// <param name="fileName">带扩展名</param>
+        /// <param name="response">the HTTP response</param>
+        /// <param name="fileName">the file name</param>
         public void Save(HttpResponse response, string fileName)
         {
             ExcelUtils.Save(Workbook, response, fileName);
         }
 
         /// <summary>
-        ///     本地保存Excel文件
+        ///     Save the file as a local file
         /// </summary>
-        /// <param name="file">带扩展名</param>
-        public void Save(string file)
+        /// <param name="filePath">the target file path</param>
+        public void Save(string filePath)
         {
-            ExcelUtils.Save(Workbook, file);
+            ExcelUtils.Save(Workbook, filePath);
         }
 
 #if !NET20 &&!NET30 &&!NET35
         /// <summary>
-        ///     远程下载Excel文件，MVC中return new EmptyResult();
+        ///     Download the Excel file, for asp.net MVC, can use `return new EmptyResult();` as the response.
         /// </summary>
-        /// <param name="response"></param>
-        /// <param name="fileName">带扩展名</param>
+        /// <param name="response">the HTTP response</param>
+        /// <param name="fileName">the file name</param>
         public void Save(HttpResponseBase response, string fileName)
         {
             ExcelUtils.Save(Workbook, response, fileName);

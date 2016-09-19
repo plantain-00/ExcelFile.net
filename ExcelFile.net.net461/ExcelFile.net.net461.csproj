@@ -4,32 +4,32 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ED354521-5030-433B-8095-E47F9AC494CD}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{4CDEA593-2E56-4455-B367-CF9BD382E3A9}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ExcelFile.net.Example.net40</RootNamespace>
-    <AssemblyName>ExcelFile.net.Example.net40</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>ExcelFile.net</RootNamespace>
+    <AssemblyName>ExcelFile.net</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\net461\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\bin\net461\ExcelFile.net.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\net461\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\bin\net461\ExcelFile.net.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
@@ -53,30 +53,22 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\ExcelFile.net.net40\Enumerable\EnumerableCell.cs" />
+    <Compile Include="..\ExcelFile.net.net40\Enumerable\EnumerableRow.cs" />
+    <Compile Include="..\ExcelFile.net.net40\Enumerable\EnumerableSheet.cs" />
+    <Compile Include="..\ExcelFile.net.net40\Enumerable\ExcelExtension.cs" />
+    <Compile Include="..\ExcelFile.net.net40\Properties\AssemblyInfo.cs" />
+    <Compile Include="..\ExcelFile.net.net40\ExcelDataException.cs" />
+    <Compile Include="..\ExcelFile.net.net40\ExcelStyle.cs" />
+    <Compile Include="..\ExcelFile.net.net40\ExcelFile.cs" />
+    <Compile Include="..\ExcelFile.net.net40\ExcelEditor.cs" />
+    <Compile Include="..\ExcelFile.net.net40\ExcelUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ExcelFile.net.net40\ExcelFile.net.net40.csproj">
-      <Project>{2f6c45f3-b267-4fdd-8289-8994c635b9b4}</Project>
-      <Name>ExcelFile.net.net40</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="A.xlsx" />
-    <None Include="B.xlsx" />
-    <None Include="C.xlsx" />
-    <None Include="F.xlsx" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

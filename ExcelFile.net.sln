@@ -1,7 +1,7 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelFile.net.net40", "ExcelFile.net.net40\ExcelFile.net.net40.csproj", "{2F6C45F3-B267-4FDD-8289-8994C635B9B4}"
 EndProject
@@ -16,6 +16,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelFile.net.net30", "ExcelFile.net.net30\ExcelFile.net.net30.csproj", "{FEFB340D-4D2D-423B-8E88-F71FA1B0F393}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelFile.net.net35", "ExcelFile.net.net35\ExcelFile.net.net35.csproj", "{F8F3C18F-1279-491F-BD3F-C416FC1318C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelFile.net.net452", "ExcelFile.net.net452\ExcelFile.net.net452.csproj", "{C3827F35-6C35-46F3-9380-7D1B949929EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelFile.net.net46", "ExcelFile.net.net46\ExcelFile.net.net46.csproj", "{583715BB-C0BF-4090-BEDA-3414C4B4C712}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelFile.net.net461", "ExcelFile.net.net461\ExcelFile.net.net461.csproj", "{4CDEA593-2E56-4455-B367-CF9BD382E3A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +57,18 @@ Global
 		{F8F3C18F-1279-491F-BD3F-C416FC1318C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8F3C18F-1279-491F-BD3F-C416FC1318C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8F3C18F-1279-491F-BD3F-C416FC1318C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3827F35-6C35-46F3-9380-7D1B949929EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3827F35-6C35-46F3-9380-7D1B949929EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3827F35-6C35-46F3-9380-7D1B949929EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3827F35-6C35-46F3-9380-7D1B949929EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{583715BB-C0BF-4090-BEDA-3414C4B4C712}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{583715BB-C0BF-4090-BEDA-3414C4B4C712}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{583715BB-C0BF-4090-BEDA-3414C4B4C712}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{583715BB-C0BF-4090-BEDA-3414C4B4C712}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CDEA593-2E56-4455-B367-CF9BD382E3A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CDEA593-2E56-4455-B367-CF9BD382E3A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CDEA593-2E56-4455-B367-CF9BD382E3A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CDEA593-2E56-4455-B367-CF9BD382E3A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

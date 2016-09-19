@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -14,169 +14,179 @@ using System.Threading.Tasks;
 namespace ExcelFile.net
 {
     /// <summary>
-    ///     向Excel模板中插入数据的接口
+    ///     An interface to render an Excel template with data
     /// </summary>
     public interface IExcelEditor
     {
         /// <summary>
-        ///     开始标记
+        ///     Start mark of a template variable
         /// </summary>
         string StartMark { get; set; }
 
         /// <summary>
-        ///     结束标记
+        ///     End mark of a template variable
         /// </summary>
         string EndMark { get; set; }
 
         /// <summary>
-        ///     分隔符
+        ///     Separator between a template variable name and its property or field 
         /// </summary>
         string Separator { get; set; }
 
         /// <summary>
-        ///     警告信息
+        ///     Warning messages created when rendering the template
         /// </summary>
-        List<string> WarningMessage { get; }
+        List<string> WarningMessages { get; }
 
         /// <summary>
-        ///     设置单元格的值
+        ///     Set the value of a cell
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
+        /// <param name="name">the name of the cell</param>
+        /// <param name="value">the value of the cell</param>
         void Set(string name, string value);
 
         /// <summary>
-        ///     设置单元格的值
+        ///     Set the value of a cell
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        /// <param name="format"></param>
+        /// <param name="name">the name of the cell</param>
+        /// <param name="value">the value of the cell</param>
+        /// <param name="format">the format of the value</param>
         void Set(string name, double value, string format = null);
 
         /// <summary>
-        ///     设置单元格的值
+        ///     Set the value of a cell
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
+        /// <param name="name">the name of the cell</param>
+        /// <param name="value">the value of the cell</param>
         void Set(string name, bool value);
 
         /// <summary>
-        ///     设置单元格的值
+        ///     Set the value of a cell
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        /// <param name="format"></param>
+        /// <param name="name">the name of the cell</param>
+        /// <param name="value">the value of the cell</param>
+        /// <param name="format">the format of the value</param>
         void Set(string name, DateTime value, string format = null);
 
         /// <summary>
-        ///     设置单元格的值
-        ///     在外部缓存T的Type会提高性能
+        ///     Set the values of cells, the result is multiple rows
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="values"></param>
-        /// <param name="willCopyRow"></param>
-        /// <param name="type"></param>
+        /// <param name="name">the name of the cell</param>
+        /// <param name="values">the values of the cell</param>
+        /// <param name="willCopyRow">if it is true, the rows created by copy from the template row, or just create a new blank row</param>
+        /// <param name="type">the type iof T</param>
         void Set<T>(string name, IList<T> values, bool willCopyRow = true, Type type = null);
 
         /// <summary>
-        ///     远程下载Excel文件，MVC中return new EmptyResult();
+        ///     Download the Excel file, for asp.net MVC, can use `return new EmptyResult();` as the response.
         /// </summary>
-        /// <param name="response"></param>
-        /// <param name="fileName"></param>
+        /// <param name="response">the HTTP response</param>
+        /// <param name="fileName">the file name</param>
         void Save(HttpResponse response, string fileName);
 
         /// <summary>
-        ///     本地保存Excel文件
+        ///     Save the file as a local file
         /// </summary>
-        /// <param name="file"></param>
-        void Save(string file);
+        /// <param name="filePath">the target file path</param>
+        void Save(string filePath);
 
 #if !NET20 &&!NET30 &&!NET35
         /// <summary>
-        ///     远程下载Excel文件，MVC中return new EmptyResult();
+        ///     Download the Excel file, for asp.net MVC, can use `return new EmptyResult();` as the response.
         /// </summary>
-        /// <param name="response"></param>
-        /// <param name="fileName"></param>
+        /// <param name="response">the HTTP response</param>
+        /// <param name="fileName">the file name</param>
         void Save(HttpResponseBase response, string fileName);
 
         /// <summary>
-        ///     更新Formula
+        ///     Update all cell value if it is a formula
         /// </summary>
         void UpdateFormula();
 
         /// <summary>
-        ///     远程下载Excel文件，MVC中return new EmptyResult();
+        ///     Download the Excel file, for asp.net MVC, can use `return new EmptyResult();` as the response.
         /// </summary>
-        /// <param name="response"></param>
-        /// <param name="fileName"></param>
+        /// <param name="response">the HTTP response</param>
+        /// <param name="fileName">the file name</param>
         Task SaveAsync(HttpResponse response, string fileName);
 
         /// <summary>
-        ///     本地保存Excel文件
+        ///     Save the file as a local file
         /// </summary>
-        /// <param name="file"></param>
-        Task SaveAsync(string file);
+        /// <param name="filePath">the target file path</param>
+        Task SaveAsync(string filePath);
 
         /// <summary>
-        ///     远程下载Excel文件，MVC中return new EmptyResult();
+        ///     Download the Excel file, for asp.net MVC, can use `return new EmptyResult();` as the response.
         /// </summary>
-        /// <param name="response"></param>
-        /// <param name="fileName"></param>
+        /// <param name="response">the HTTP response</param>
+        /// <param name="fileName">the file name</param>
         Task SaveAsync(HttpResponseBase response, string fileName);
 #endif
     }
 
     /// <summary>
-    ///     向Excel模板中插入数据的类
+    ///     An class to render an Excel template with data
     /// </summary>
     public class ExcelEditor : IExcelEditor
     {
         /// <summary>
-        ///     当前工作簿
+        ///     Current workbook
         /// </summary>
         public readonly IWorkbook Workbook;
 
         /// <summary>
-        ///     构造Excel编辑对象
+        ///     Construct an ExcelEditor object
         /// </summary>
-        /// <param name="file"></param>
-        /// <param name="is2007OrLater"></param>
-        /// <param name="willJudgeByExtensionName"></param>
+        /// <param name="file">the file path</param>
+        /// <param name="is2007OrLater">whether the format of the excel file is 2007 or later</param>
+        /// <param name="willJudgeByExtensionName">whether the format of the excel file will be judged by its extension name</param>
         public ExcelEditor(string file, bool is2007OrLater = false, bool willJudgeByExtensionName = true)
         {
             Workbook = ExcelUtils.New(file, FileMode.Open, FileAccess.Read, is2007OrLater, willJudgeByExtensionName);
-            WarningMessage = new List<string>();
+            WarningMessages = new List<string>();
             StartMark = "{";
             EndMark = "}";
             Separator = ".";
         }
 
+        /// <summary>
+        ///     Start mark of a template variable
+        /// </summary>
         public string StartMark { get; set; }
+
+        /// <summary>
+        ///     End mark of a template variable
+        /// </summary>
         public string EndMark { get; set; }
+
+        /// <summary>
+        ///     Separator between a template variable name and its property or field 
+        /// </summary>
         public string Separator { get; set; }
 
         /// <summary>
-        ///     警告信息
+        ///     Warning messages created when rendering the template
         /// </summary>
-        public List<string> WarningMessage { get; private set; }
+        public List<string> WarningMessages { get; private set; }
 
         private void AddWarningMessage(string message)
         {
-            foreach (var warningMessage in WarningMessage)
+            foreach (var warningMessage in WarningMessages)
             {
                 if (warningMessage == message)
                 {
                     return;
                 }
             }
-            WarningMessage.Add(message);
+            WarningMessages.Add(message);
         }
 
         /// <summary>
-        ///     设置单元格的值
+        ///     Set the value of a cell
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
+        /// <param name="name">the name of the cell</param>
+        /// <param name="value">the value of the cell</param>
         public void Set(string name, string value)
         {
             var placeHolderName = GetPlaceHolderName(name);
@@ -187,11 +197,11 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     设置单元格的值
+        ///     Set the value of a cell
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        /// <param name="format"></param>
+        /// <param name="name">the name of the cell</param>
+        /// <param name="value">the value of the cell</param>
+        /// <param name="format">the format of the value</param>
         public void Set(string name, double value, string format = null)
         {
             var placeHolderName = GetPlaceHolderName(name);
@@ -209,10 +219,10 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     设置单元格的值
+        ///     Set the value of a cell
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
+        /// <param name="name">the name of the cell</param>
+        /// <param name="value">the value of the cell</param>
         public void Set(string name, bool value)
         {
             var placeHolderName = GetPlaceHolderName(name);
@@ -230,11 +240,11 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     设置单元格的值
+        ///     Set the value of a cell
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        /// <param name="format"></param>
+        /// <param name="name">the name of the cell</param>
+        /// <param name="value">the value of the cell</param>
+        /// <param name="format">the format of the value</param>
         public void Set(string name, DateTime value, string format = null)
         {
             var placeHolderName = GetPlaceHolderName(name);
@@ -262,11 +272,11 @@ namespace ExcelFile.net
             {
                 type = value.GetType();
             }
-            if (type == typeof (string))
+            if (type == typeof(string))
             {
                 cell.SetCellValue(cellValue.Replace(name, value as string));
             }
-            else if (type == typeof (DateTime))
+            else if (type == typeof(DateTime))
             {
                 if (cellValue == name)
                 {
@@ -289,7 +299,7 @@ namespace ExcelFile.net
                     cell.SetCellValue(format == null ? cellValue.Replace(name, dateTime.Value.ToString()) : cellValue.Replace(name, dateTime.Value.ToString(format)));
                 }
             }
-            else if (type == typeof (bool))
+            else if (type == typeof(bool))
             {
                 if (cellValue == name)
                 {
@@ -312,15 +322,15 @@ namespace ExcelFile.net
                     cell.SetCellValue(cellValue.Replace(name, boolean.Value.ToString()));
                 }
             }
-            else if (type == typeof (double)
-                     || type == typeof (float)
-                     || type == typeof (int)
-                     || type == typeof (uint)
-                     || type == typeof (short)
-                     || type == typeof (long)
-                     || type == typeof (ushort)
-                     || type == typeof (ulong)
-                     || type == typeof (decimal))
+            else if (type == typeof(double)
+                     || type == typeof(float)
+                     || type == typeof(int)
+                     || type == typeof(uint)
+                     || type == typeof(short)
+                     || type == typeof(long)
+                     || type == typeof(ushort)
+                     || type == typeof(ulong)
+                     || type == typeof(decimal))
             {
                 SetDoubleValue(cell, name, cellValue, format, Convert.ToDouble(value));
             }
@@ -367,7 +377,7 @@ namespace ExcelFile.net
             else if (value is decimal?)
             {
                 var d = value as decimal?;
-                SetDoubleValue(cell, name, cellValue, format, (double) d.Value);
+                SetDoubleValue(cell, name, cellValue, format, (double)d.Value);
             }
             else
             {
@@ -387,15 +397,13 @@ namespace ExcelFile.net
             }
         }
 
-
         /// <summary>
-        ///     设置单元格的值
-        ///     在外部缓存T的Type会提高性能
+        ///     Set the values of cells, the result is multiple rows
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="values"></param>
-        /// <param name="willCopyRow"></param>
-        /// <param name="type"></param>
+        /// <param name="name">the name of the cell</param>
+        /// <param name="values">the values of the cell</param>
+        /// <param name="willCopyRow">if it is true, the rows created by copy from the template row, or just create a new blank row</param>
+        /// <param name="type">the type iof T</param>
         public void Set<T>(string name, IList<T> values, bool willCopyRow = true, Type type = null)
         {
             if (values == null)
@@ -404,7 +412,7 @@ namespace ExcelFile.net
             }
             if (type == null)
             {
-                type = typeof (T);
+                type = typeof(T);
             }
             var properties = type.GetProperties();
             var fields = type.GetFields();
@@ -531,7 +539,7 @@ namespace ExcelFile.net
             var result = new List<ICell>();
             for (var i = 0; i < Workbook.NumberOfSheets; i++)
             {
-                var sheet = Workbook[i];
+                var sheet = Workbook.GetSheetAt(i);
                 for (var j = sheet.FirstRowNum; j <= sheet.LastRowNum; j++)
                 {
                     var row = sheet.GetRow(j);
@@ -556,7 +564,7 @@ namespace ExcelFile.net
             }
             if (result.Count == 0)
             {
-                AddWarningMessage($"变量\"{name}\"未被使用，可以删除");
+                AddWarningMessage($"variable \"{name}\" is not used here, so it can be deleted.");
             }
             return result;
         }
@@ -565,7 +573,7 @@ namespace ExcelFile.net
         {
             for (var i = 0; i < Workbook.NumberOfSheets; i++)
             {
-                var sheet = Workbook[i];
+                var sheet = Workbook.GetSheetAt(i);
                 for (var j = sheet.FirstRowNum; j <= sheet.LastRowNum; j++)
                 {
                     var row = sheet.GetRow(j);
@@ -588,7 +596,7 @@ namespace ExcelFile.net
                     }
                 }
             }
-            AddWarningMessage($"变量\"{name}\"未被使用，可以删除");
+            AddWarningMessage($"variable \"{name}\" is not used here, so it can be deleted.");
             return null;
         }
 
@@ -634,7 +642,7 @@ namespace ExcelFile.net
             if (name.Contains(StartMark)
                 || name.Contains(EndMark))
             {
-                AddWarningMessage($"变量名\"{name}\"不应该包含大括号");
+                AddWarningMessage($"the name of variable \"{name}\" should include the start mark or end mark.");
             }
             return string.Format("{1}{0}{2}", name, StartMark, EndMark);
         }
@@ -661,43 +669,43 @@ namespace ExcelFile.net
                 || name.Contains(EndMark)
                 || name.Contains(Separator))
             {
-                AddWarningMessage($"变量名\"{name}\"不应该包含大括号或'-'");
+                AddWarningMessage($"the name of variable \"{name}\" should not include start mark, end mark and separator.");
             }
             return string.Format("{1}{0}{2}", name, StartMark, Separator);
         }
 
         /// <summary>
-        ///     远程下载Excel文件，MVC中return new EmptyResult();
+        ///     Download the Excel file, for asp.net MVC, can use `return new EmptyResult();` as the response.
         /// </summary>
-        /// <param name="response"></param>
-        /// <param name="fileName"></param>
+        /// <param name="response">the HTTP response</param>
+        /// <param name="fileName">the file name</param>
         public void Save(HttpResponse response, string fileName)
         {
             ExcelUtils.Save(Workbook, response, fileName);
         }
 
         /// <summary>
-        ///     本地保存Excel文件
+        ///     Save the file as a local file
         /// </summary>
-        /// <param name="file"></param>
-        public void Save(string file)
+        /// <param name="filePath">the target file path</param>
+        public void Save(string filePath)
         {
-            ExcelUtils.Save(Workbook, file);
+            ExcelUtils.Save(Workbook, filePath);
         }
 
 #if !NET20 &&!NET30 &&!NET35
         /// <summary>
-        ///     远程下载Excel文件，MVC中return new EmptyResult();
+        ///     Download the Excel file, for asp.net MVC, can use `return new EmptyResult();` as the response.
         /// </summary>
-        /// <param name="response"></param>
-        /// <param name="fileName"></param>
+        /// <param name="response">the HTTP response</param>
+        /// <param name="fileName">the file name</param>
         public void Save(HttpResponseBase response, string fileName)
         {
             ExcelUtils.Save(Workbook, response, fileName);
         }
 
         /// <summary>
-        ///     更新Formula
+        ///     Update all cell value if it is a formula
         /// </summary>
         public void UpdateFormula()
         {
@@ -719,16 +727,30 @@ namespace ExcelFile.net
             }
         }
 
+        /// <summary>
+        ///     Download the Excel file, for asp.net MVC, can use `return new EmptyResult();` as the response.
+        /// </summary>
+        /// <param name="response">the HTTP response</param>
+        /// <param name="fileName">the file name</param>
         public Task SaveAsync(HttpResponse response, string fileName)
         {
             return Task.Factory.StartNew(() => Save(response, fileName));
         }
 
-        public Task SaveAsync(string file)
+        /// <summary>
+        ///     Save the file as a local file
+        /// </summary>
+        /// <param name="filePath">the target file path</param>
+        public Task SaveAsync(string filePath)
         {
-            return Task.Factory.StartNew(() => Save(file));
+            return Task.Factory.StartNew(() => Save(filePath));
         }
 
+        /// <summary>
+        ///     Download the Excel file, for asp.net MVC, can use `return new EmptyResult();` as the response.
+        /// </summary>
+        /// <param name="response">the HTTP response</param>
+        /// <param name="fileName">the file name</param>
         public Task SaveAsync(HttpResponseBase response, string fileName)
         {
             return Task.Factory.StartNew(() => Save(response, fileName));

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Text;
 using System.Web;
@@ -10,12 +10,12 @@ using NPOI.XSSF.UserModel;
 namespace ExcelFile.net
 {
     /// <summary>
-    ///     提供Excel文件输入输出方法
+    ///     I/O operations for Excel file
     /// </summary>
     public static class ExcelUtils
     {
         /// <summary>
-        ///     读取Excel文件
+        ///     Read an excel file
         /// </summary>
         /// <param name="file"></param>
         /// <param name="fileMode"></param>
@@ -43,7 +43,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     新建空Excel工作簿
+        ///     Create a new Excel workbook
         /// </summary>
         /// <param name="is2007OrLater"></param>
         /// <returns></returns>
@@ -53,7 +53,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     从流中读取Excel工作簿
+        ///     Read Excel workbook from a stream
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="is2007OrLater"></param>
@@ -64,10 +64,10 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     远程下载Excel文件
+        ///     Download the Excel file, for asp.net MVC, can use `return new EmptyResult();` as the response.
         /// </summary>
         /// <param name="response"></param>
-        /// <param name="fileName">带扩展名</param>
+        /// <param name="fileName">with extension name</param>
         /// <param name="workbook"></param>
         public static void Save(IWorkbook workbook, HttpResponse response, string fileName)
         {
@@ -76,9 +76,9 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     本地保存Excel文件
+        ///     Save the file as a local file
         /// </summary>
-        /// <param name="file">带扩展名</param>
+        /// <param name="file">with extension name</param>
         /// <param name="workbook"></param>
         public static void Save(IWorkbook workbook, string file)
         {
@@ -90,10 +90,10 @@ namespace ExcelFile.net
 
 #if !NET20 &&!NET30 &&!NET35
         /// <summary>
-        ///     远程下载Excel文件
+        ///     Download the Excel file, for asp.net MVC, can use `return new EmptyResult();` as the response.
         /// </summary>
         /// <param name="response"></param>
-        /// <param name="fileName">带扩展名</param>
+        /// <param name="fileName">with extension name</param>
         /// <param name="workbook"></param>
         public static void Save(IWorkbook workbook, HttpResponseBase response, string fileName)
         {
@@ -102,7 +102,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     取字符串
+        ///     Get string value from a cell
         /// </summary>
         /// <param name="cell"></param>
         /// <returns></returns>
@@ -120,7 +120,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     取数字
+        ///     Get a number value from a cell
         /// </summary>
         /// <param name="cell"></param>
         /// <returns></returns>
@@ -138,7 +138,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     取Boolean
+        ///     Get a boolean value from a cell
         /// </summary>
         /// <param name="cell"></param>
         /// <returns></returns>
@@ -156,7 +156,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     取日期
+        ///     Get a date value from a cell
         /// </summary>
         /// <param name="cell"></param>
         /// <returns></returns>
@@ -174,7 +174,7 @@ namespace ExcelFile.net
         }
 
         /// <summary>
-        ///     获得Workbook的FormulaEvaluator
+        ///     Get FormulaEvaluator from a workbook
         /// </summary>
         /// <param name="workbook"></param>
         /// <returns></returns>
