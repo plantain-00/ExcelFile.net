@@ -1,5 +1,7 @@
 using System;
 
+using NPOI.SS.UserModel;
+
 namespace ExcelFile.net
 {
     /// <summary>
@@ -10,24 +12,20 @@ namespace ExcelFile.net
         /// <summary>
         ///     Cosntruct an ExcelDataException object
         /// </summary>
-        /// <param name="rowIndex">the row index of the errored cell</param>
-        /// <param name="columnIndex">the column index of the errored cell</param>
-        public ExcelDataException(int rowIndex = 0, int columnIndex = 0)
+        /// <param name="cell">the errored cell</param>
+        public ExcelDataException(ICell cell)
         {
-            RowIndex = rowIndex;
-            ColumnIndex = columnIndex;
+            Cell = cell;
         }
 
         /// <summary>
         ///     Cosntruct an ExcelDataException object
         /// </summary>
         /// <param name="message">the error message</param>
-        /// <param name="rowIndex">the row index of the errored cell</param>
-        /// <param name="columnIndex">the column index of the errored cell</param>
-        public ExcelDataException(string message, int rowIndex = 0, int columnIndex = 0) : base(message)
+        /// <param name="cell">the errored cell</param>
+        public ExcelDataException(string message, ICell cell) : base(message)
         {
-            RowIndex = rowIndex;
-            ColumnIndex = columnIndex;
+            Cell = cell;
         }
 
         /// <summary>
@@ -35,22 +33,15 @@ namespace ExcelFile.net
         /// </summary>
         /// <param name="message">the error message</param>
         /// <param name="innerException">the inner exception</param>
-        /// <param name="rowIndex">the row index of the errored cell</param>
-        /// <param name="columnIndex">the column index of the errored cell</param>
-        public ExcelDataException(string message, Exception innerException, int rowIndex = 0, int columnIndex = 0) : base(message, innerException)
+        /// <param name="cell">the errored cell</param>
+        public ExcelDataException(string message, Exception innerException, ICell cell) : base(message, innerException)
         {
-            RowIndex = rowIndex;
-            ColumnIndex = columnIndex;
+            Cell = cell;
         }
 
         /// <summary>
-        ///     The Row index of the errored cell
+        ///     The errored cell
         /// </summary>
-        public int RowIndex { get; set; }
-
-        /// <summary>
-        ///     The column index of the errored cell
-        /// </summary>
-        public int ColumnIndex { get; set; }
+        public ICell Cell { get; set; }
     }
 }

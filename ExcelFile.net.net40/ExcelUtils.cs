@@ -115,7 +115,7 @@ namespace ExcelFile.net
             }
             catch (Exception exception)
             {
-                throw new ExcelDataException("Error when get a string from a Excel's cell.", exception, cell.RowIndex, cell.ColumnIndex);
+                throw new ExcelDataException("Error when get a string from a Excel's cell.", exception, cell);
             }
         }
 
@@ -133,7 +133,7 @@ namespace ExcelFile.net
             }
             catch (Exception exception)
             {
-                throw new ExcelDataException("Error when get a number from a Excel's cell.", exception, cell.RowIndex, cell.ColumnIndex);
+                throw new ExcelDataException("Error when get a number from a Excel's cell.", exception, cell);
             }
         }
 
@@ -151,7 +151,7 @@ namespace ExcelFile.net
             }
             catch (Exception exception)
             {
-                throw new ExcelDataException("Error when get a bool value from a Excel's cell.", exception, cell.RowIndex, cell.ColumnIndex);
+                throw new ExcelDataException("Error when get a bool value from a Excel's cell.", exception, cell);
             }
         }
 
@@ -169,7 +169,7 @@ namespace ExcelFile.net
             }
             catch (Exception exception)
             {
-                throw new ExcelDataException("Error when get a date from a Excel's cell.", exception, cell.RowIndex, cell.ColumnIndex);
+                throw new ExcelDataException("Error when get a date from a Excel's cell.", exception, cell);
             }
         }
 
