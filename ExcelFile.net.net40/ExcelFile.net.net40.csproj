@@ -56,16 +56,16 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enumerable\EnumerableCell.cs" />
-    <Compile Include="Enumerable\EnumerableRow.cs" />
-    <Compile Include="Enumerable\EnumerableSheet.cs" />
-    <Compile Include="Enumerable\ExcelExtension.cs" />
-    <Compile Include="ExcelDataException.cs" />
-    <Compile Include="ExcelEditor.cs" />
-    <Compile Include="ExcelStyle.cs" />
-    <Compile Include="ExcelFile.cs" />
-    <Compile Include="ExcelUtils.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\src\Enumerable\EnumerableCell.cs" />
+    <Compile Include="..\src\Enumerable\EnumerableRow.cs" />
+    <Compile Include="..\src\Enumerable\EnumerableSheet.cs" />
+    <Compile Include="..\src\Enumerable\ExcelExtension.cs" />
+    <Compile Include="..\src\Properties\AssemblyInfo.cs" />
+    <Compile Include="..\src\ExcelDataException.cs" />
+    <Compile Include="..\src\ExcelStyle.cs" />
+    <Compile Include="..\src\ExcelFile.cs" />
+    <Compile Include="..\src\ExcelEditor.cs" />
+    <Compile Include="..\src\ExcelUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
